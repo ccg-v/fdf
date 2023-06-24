@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/22 20:07:15 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/06/23 18:31:07 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,5 @@ typedef struct t_map
     void    *mlx_ptr;
     void    *win_ptr;
 }           map;
+
+#endif
