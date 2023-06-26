@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/25 23:48:59 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/06/26 21:58:39 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	count_elements(const char *str, char c)
 	}
 	return (num_elements);
 }
-
+/*
 static int get_map_length(char *file_name)
 {
     int     fd;
@@ -57,7 +57,8 @@ static int get_map_length(char *file_name)
     close(fd);
     return (map_length);
 }
-
+*/
+/*
 static int get_map_width(char *file_name)
 {
     char    *line;
@@ -81,7 +82,7 @@ static int get_map_width(char *file_name)
     close(fd);
     return (map_width);
 }
-
+*/
 /*
 static int get_map_width(char *file_name)
 {
@@ -98,6 +99,30 @@ static int get_map_width(char *file_name)
 }
 */
 
+void get_map_dimensions(char *file_name, t_map *map)
+{
+    int     fd;
+    char    *line;
+    int     flag;
+
+    fd = open(file_name, O_RDONLY, 0);
+    map->length = -1;
+    map->width = 0;
+    line = "";
+    flag = 0;
+    while(line != NULL)
+    {
+        line = get_next_line(fd);    
+        if (flag == 0)
+        {
+            map->width = count_elements(line, ' ');
+            flag = 1;
+        }
+        map->length++;
+    }
+    close(fd);
+}
+
 void    read_file(char *file_name, t_map *map)
 {
     int     fd;
@@ -106,8 +131,9 @@ void    read_file(char *file_name, t_map *map)
     int     i;
     int     j;
 
-    map->length = get_map_length(file_name);
-    map->width = get_map_width(file_name);
+    // map->length = get_map_length(file_name);
+    // map->width = get_map_width(file_name);
+    get_map_dimensions(file_name, &(*map));
     map->height = malloc((map->length + 1) * sizeof(int *));
     i = 0;
     while (i < map->length)
@@ -123,7 +149,7 @@ void    read_file(char *file_name, t_map *map)
        line = get_next_line(fd);
        splitted_line = ft_split(line, ' ');
        free(line);
-//        splitted_line = ft_split(get_next_line(fd), ' ');
+    //    splitted_line = ft_split(get_next_line(fd), ' ');
         j = 0;
         while (j < map->width)
         {
@@ -166,31 +192,6 @@ printf("map->width  = %d\n", map->width);
     free(map);
 }
 
-/*
-void get_map_dimensions(char *file_name, struct t_map *map)
-{
-    int     fd;
-    char    *line;
-    int     flag;
-
-    fd = open(file_name, O_RDONLY, 0);
-    map->length = -1;
-    map->width = 0;
-    line = "";
-    flag = 0;
-    while(line != NULL)
-    {
-        line = get_next_line(fd);    
-        if (flag == 0)
-        {
-            map->width = count_elements(line, ' ');
-            flag = 1;
-        }
-        map->length++;
-    }
-    close(fd);
-}
-*/
 /*
 int main(int argc, char **argv)
 {    
