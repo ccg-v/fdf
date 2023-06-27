@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/06/23 00:25:26 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/06/27 23:27:54 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,12 @@ LIB_FLAGS		=		-lmlx -framework OpenGL -framework AppKit
 # --- Directories ------------------------------------------------------------ #
 
 HEADER_DIR		=		inc/
+GNL_DIR			=		get_next_line/
 LIB_DIR			=		minilibx_macos/
 
 # --- Includes --------------------------------------------------------------- #
 
-HEADER_INCLUDE	=		-I $(HEADER_DIR)
+INCLUDES		=		-I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIB_DIR)
 LIB_INCLUDE		=		-L $(LIB_DIR)
 
 # --- Paths ------------------------------------------------------------------ #
@@ -38,7 +39,12 @@ LIB_PATH		= 		$(addprefix $(LIB_DIR), $(LIB_NAME))
 
 # --- Files ------------------------------------------------------------------ #
 
-SRC_FILES		=		main.c
+SRC_FILES		=		read_file.c \
+						draw_map.c \
+						ft_atoi.c \
+						ft_split.c \
+						$(GNL_DIR)get_next_line.c \
+						$(GNL_DIR)get_next_line_utils.c
 
 # --- Macros ----------------------------------------------------------------- #
 
@@ -48,17 +54,20 @@ DEP_FILES = $(SRC_FILES:.c=.d)
 # --- Compilation rules ------------------------------------------------------ #
 
 all:
+		$(MAKE) -C $(LIB_DIR)
 		$(MAKE) $(NAME)
 
 $(NAME): $(OBJ_FILES) $(LIB_PATH)
-	$(CC) $(CFLAGS) $(HEADER_INCLUDE) $(OBJ_FILES) $(LIB_INCLUDE) $(LIB_FLAGS) -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ_FILES) -o $@ $(LIB_INCLUDE) $(LIB_FLAGS)
 
 %.o: %.c Makefile
-	$(CC) $(CFLAGS) $(HEADER_INCLUDE) $(LIB_INCLUDE) $(LIB_FLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 -include $(DEP_FILES)
 
-#gcc -Wall -Wextra -Werror -I minilibx/ main.c -L minilibx -lmlx -framework OpenGL -framework AppKit
+# gcc -Wall -Wextra -Werror -I minilibx_macos/ read_file.c draw_map.c ft_atoi.c ft_split.c 
+# 	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c 
+# 	-L minilibx_macos -lmlx -framework OpenGL -framework AppKit
 
 # --- Cleaning rules --------------------------------------------------------- #
 

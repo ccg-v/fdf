@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_read_file.c                                     :+:      :+:    :+:   */
+/*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/26 21:58:39 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/06/27 21:55:44 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int get_map_width(char *file_name)
 }
 */
 
-void get_map_dimensions(char *file_name, t_map *map)
+static void get_map_dimensions(char *file_name, t_map *map)
 {
     int     fd;
     char    *line;
@@ -163,7 +163,7 @@ void    read_file(char *file_name, t_map *map)
     close(fd);
     
 }
-
+/*
 int main(int argc, char **argv)
 {
     t_map   *map;
@@ -176,8 +176,7 @@ int main(int argc, char **argv)
         return (1);
     read_file(argv[1], &(*map));
     i = 0;
-printf("map->length = %d\n", map->length);
-printf("map->width  = %d\n", map->width);
+
     while (i < map->length)
     {
         j = 0;
@@ -191,7 +190,7 @@ printf("map->width  = %d\n", map->width);
     }
     free(map);
 }
-
+*/
 /*
 int main(int argc, char **argv)
 {    

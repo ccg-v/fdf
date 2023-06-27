@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/25 20:51:43 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/06/27 21:05:09 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ typedef struct s_map
     void    *win_ptr;
 }           t_map;
 
-char    **ft_split(char const *s, char c);
-int	    ft_atoi(const char *str);
+char        **ft_split(char const *s, char c);
+int	        ft_atoi(const char *str);
+void        read_file(char *file_name, t_map *map);
 
 #endif
