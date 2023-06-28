@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/06/27 23:27:54 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/06/28 21:48:21 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME			=		fdf
 
 # --- Compiler flags --------------------------------------------------------- #
 
-CFLAGS			=		-MMD -Wall -Wextra -Werror
+CFLAGS			=		-MMD -Wall -Wextra -Werror -g
 LIB_FLAGS		=		-lmlx -framework OpenGL -framework AppKit
 
 # --- Directories ------------------------------------------------------------ #
@@ -39,7 +39,9 @@ LIB_PATH		= 		$(addprefix $(LIB_DIR), $(LIB_NAME))
 
 # --- Files ------------------------------------------------------------------ #
 
-SRC_FILES		=		read_file.c \
+SRC_FILES		=		main.c \
+						check_input.c \
+						read_file.c \
 						draw_map.c \
 						ft_atoi.c \
 						ft_split.c \

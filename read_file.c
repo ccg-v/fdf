@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/27 21:55:44 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/06/28 21:48:33 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,17 +123,10 @@ static void get_map_dimensions(char *file_name, t_map *map)
     close(fd);
 }
 
-void    read_file(char *file_name, t_map *map)
+void    map_memory_allocate(t_map *map)
 {
-    int     fd;
-    char    *line;
-    char    **splitted_line;
-    int     i;
-    int     j;
-
-    // map->length = get_map_length(file_name);
-    // map->width = get_map_width(file_name);
-    get_map_dimensions(file_name, &(*map));
+    int i;
+    
     map->height = malloc((map->length + 1) * sizeof(int *));
     i = 0;
     while (i < map->length)
@@ -141,6 +134,16 @@ void    read_file(char *file_name, t_map *map)
         map->height[i] = malloc((map->width + 1) * sizeof(int));
         i++;
     }
+}
+
+void    fill_map_array(char *file_name, t_map *map)
+{
+    int     fd;
+    char    *line;
+    char    **splitted_line;
+    int     i;
+    int     j;
+
     fd = open(file_name, O_RDONLY, 0);
     i = 0;
     line = NULL;
@@ -161,8 +164,37 @@ void    read_file(char *file_name, t_map *map)
         i++;
     }
     close(fd);
-    
 }
+
+static void print_map(t_map *map)
+{
+    int     i;
+    int     j;
+
+    i = 0;
+    while (i < map->length)
+    {
+        j = 0;
+        while (j < map->width)
+        {
+            printf("%2d ", map->height[i][j]);
+            j++;
+        }
+        printf("\n");
+        i++;
+    }
+}
+
+void    read_file(char *file_name, t_map *map)
+{
+    // map->length = get_map_length(file_name);
+    // map->width = get_map_width(file_name);
+    get_map_dimensions(file_name, map);
+    map_memory_allocate(map);
+    fill_map_array(file_name, map);
+    print_map(map);
+}
+
 /*
 int main(int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/27 21:05:31 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/06/29 01:18:50 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,35 @@ float	ft_abs(float num)
 	return (num);
 }
 
-void	draw_line(float x0, float x1, float y0, float y1, t_map map)
+void	isometric(float *x, float *y, int z)
+{
+	*x = (*x - *y) * cos(0.8);
+	*y = (*x + *y) * sin(0.8) - z;
+}
+
+//static void	draw_line(float x0, float x1, float y0, float y1, t_map *map)
+void	draw_line(float x0, float y0, float x1, float y1, t_map *map)
 {
 	float	delta_x;
 	float	delta_y;
 	int	biggest_delta;
+
+	// if (map->height[(int)y0][(int)x0] > 0)
+	// 	map->color = 0xe80c0c;
+	// else
+	// 	map->color = 0xffffff;
+	
+	int	z0 = map->height[(int)y0][(int)x0];
+	int	z1 = map->height[(int)y1][(int)x1];	
+
+	x0 *= map->zoom_factor;
+	y0 *= map->zoom_factor;
+	x1 *= map->zoom_factor;
+	y1 *= map->zoom_factor;
+
+	// map->color = (z0) ? 0xe80c0c : 0xffffff;
+	isometric(&x0, &y0, z0);
+	isometric(&x1, &y1, z1);
 
 	delta_x = x1 - x0;
 	delta_y = y1 - y0;
@@ -40,7 +64,8 @@ void	draw_line(float x0, float x1, float y0, float y1, t_map map)
 
 	while ((int)(x0 - x1) || (int)(y0 - y1))
 	{
-		mlx_pixel_put(map.mlx_ptr, map.win_ptr, x0, y0, 0xffffff);
+		// mlx_pixel_put(map->mlx_ptr, map->win_ptr, x0, y0, map->color);
+		mlx_pixel_put(map->mlx_ptr, map->win_ptr, x0, y0, 0xffffff);
 		x0 += delta_x;
 		y0 += delta_y;
 	}
@@ -52,23 +77,26 @@ void	draw_map(t_map *map)
 	int	y;
 
 	y = 0;
-	while (y < map->length)
+	while (y <= map->length)
 	{
 		x = 0;
-		while (x < map->width)
+		while (x <= map->width)
 		{
-			draw_line(x, y, x + 1, y, *map);
-			draw_line(x, y, x, y + 1, *map);
+			if (x < (map->width))
+				draw_line(x, y, x + 1, y, map);
+			if (y < (map->length))
+				draw_line(x, y, x, y + 1, map);
 			x++;
 		}
 		y++;
 	}
 }
-
+/*
 int	main(int argc, char **argv)
 {
 	t_map	*map;
 	
+//	check_input (argc, argv[1]);
 	if (argc != 2)
 		return (-1);
 	else
@@ -86,7 +114,7 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 }
-
+*/
 /*
 void	draw_line(void *mlx_ptr, void *win_ptr, int beginX, int beginY, int endX, int endY, int color)
 {
