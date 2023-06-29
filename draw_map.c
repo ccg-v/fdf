@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/29 01:18:50 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:42:34 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,16 @@ float	ft_abs(float num)
 	return (num);
 }
 
-void	isometric(float *x, float *y, int z)
-{
-	*x = (*x - *y) * cos(0.8);
-	*y = (*x + *y) * sin(0.8) - z;
-}
+// void	isometric(float *x, float *y, int z)
+// {
+// 	int	prev_x;
+// 	int	prev_y;
+
+// 	prev_x = *x;
+// 	prev_y = *y;
+// 	*x = (prev_x - prev_y) * cos(0.8);
+// 	*y = (prev_x + prev_y) * sin(0.8) - z;
+// }
 
 //static void	draw_line(float x0, float x1, float y0, float y1, t_map *map)
 void	draw_line(float x0, float y0, float x1, float y1, t_map *map)
@@ -41,8 +46,8 @@ void	draw_line(float x0, float y0, float x1, float y1, t_map *map)
 	// else
 	// 	map->color = 0xffffff;
 	
-	int	z0 = map->height[(int)y0][(int)x0];
-	int	z1 = map->height[(int)y1][(int)x1];	
+	// int	z0 = map->height[(int)y0][(int)x0];
+	// int	z1 = map->height[(int)y1][(int)x1];	
 
 	x0 *= map->zoom_factor;
 	y0 *= map->zoom_factor;
@@ -50,8 +55,8 @@ void	draw_line(float x0, float y0, float x1, float y1, t_map *map)
 	y1 *= map->zoom_factor;
 
 	// map->color = (z0) ? 0xe80c0c : 0xffffff;
-	isometric(&x0, &y0, z0);
-	isometric(&x1, &y1, z1);
+	// isometric(&x0, &y0, z0);
+	// isometric(&x1, &y1, z1);
 
 	delta_x = x1 - x0;
 	delta_y = y1 - y0;
