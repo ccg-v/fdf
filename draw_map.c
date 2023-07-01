@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/29 18:42:34 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/01 02:35:37 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,40 @@ float	ft_abs(float num)
 	return (num);
 }
 
-// void	isometric(float *x, float *y, int z)
-// {
-// 	int	prev_x;
-// 	int	prev_y;
+void	isometric(t_map *map, double angle)
+{
+	map->x = (map->x - map->y) * cos(0.8);
+	map->y = (map->x + map->y) * sin(0.8) - map->z;
+}
 
-// 	prev_x = *x;
-// 	prev_y = *y;
-// 	*x = (prev_x - prev_y) * cos(0.8);
-// 	*y = (prev_x + prev_y) * sin(0.8) - z;
-// }
+void	draw_line(t_map start, t_map end, t_map *map)
+{
+	float	delta_x;
+	float	delta_y;
+	int	biggest_delta;
 
-//static void	draw_line(float x0, float x1, float y0, float y1, t_map *map)
+	x0 *= map->zoom_factor;
+	y0 *= map->zoom_factor;
+	x1 *= map->zoom_factor;
+	y1 *= map->zoom_factor;
+
+	delta_x = end.x - start.x;
+	delta_y = end.y - start.y;
+	if (ft_abs(delta_x) >= ft_abs(delta_y))
+		biggest_delta = ft_abs(delta_x);
+	else
+		biggest_delta = ft_abs(delta_y);
+	delta_x /= biggest_delta;
+	delta_y /= biggest_delta;
+
+	while ((int)(start.x - end.x) || (int)(start.y - end.y))
+	{
+		mlx_pixel_put(map->mlx_ptr, map->win_ptr, x0, y0, 0xffffff);
+		start.x += delta_x;
+		start.y += delta_y;
+	}
+}
+/*
 void	draw_line(float x0, float y0, float x1, float y1, t_map *map)
 {
 	float	delta_x;
@@ -75,7 +97,7 @@ void	draw_line(float x0, float y0, float x1, float y1, t_map *map)
 		y0 += delta_y;
 	}
 }
-
+*/
 void	draw_map(t_map *map)
 {
 	int	x;

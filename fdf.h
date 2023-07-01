@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/28 23:50:46 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/01 00:14:11 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ typedef struct s_map
     int     width;
     int     length;
     int     **height;
+    float   x;
+    float   y;
+    float   z;
     int     zoom_factor;
     int     color;
     void    *mlx_ptr;

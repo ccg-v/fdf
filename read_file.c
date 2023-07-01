@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/28 21:48:33 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/01 00:57:25 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static void get_map_dimensions(char *file_name, t_map *map)
     }
     close(fd);
 }
-
+/*
 void    map_memory_allocate(t_map *map)
 {
     int i;
@@ -135,7 +135,79 @@ void    map_memory_allocate(t_map *map)
         i++;
     }
 }
+*/
+t_map   **map_memory_allocate(t_map *map)
+{
+    t_map   **map_array;
+    int     i;
+    
+    map_array = (t_map **)malloc((map->length + 1) * sizeof(t_map *));
+    i = 0;
+    while (i < map->length)
+    {
+        map_array[i] = (t_map *)malloc((map->width + 1) * sizeof(t_map));
+        i++;
+    }
+    return (map_array);
+}
 
+void    fill_map_array(char *file_name, t_map *map, t_map **map_array)
+{
+    int     fd;
+    char    *line;
+    char    **splitted_line;
+    int     x;
+    int     y;
+
+    fd = open(file_name, O_RDONLY, 0);
+    y = 0;
+    line = NULL;
+    while (y < map->length )
+    {
+       line = get_next_line(fd);
+       splitted_line = ft_split(line, ' ');
+    //    splitted_line = ft_split(get_next_line(fd), ' ');
+        x = 0;
+        while (x < map->width)
+        {
+            map_array[x][y].x = x;
+            map_array[x][y].y = y;
+            map_array[x][y].z = ft_atoi(splitted_line[x]);
+            x++;
+        }
+        y++;
+    }
+    close(fd);
+}
+/*
+void    fill_map_array(char *file_name, t_map *map, char **map_array)
+{
+    int     fd;
+    char    *line;
+    char    **splitted_line;
+    int     i;
+    int     j;
+
+    fd = open(file_name, O_RDONLY, 0);
+    i = 0;
+    line = NULL;
+    while (i < map->length )
+    {
+       line = get_next_line(fd);
+       splitted_line = ft_split(line, ' ');
+    //    splitted_line = ft_split(get_next_line(fd), ' ');
+        j = 0;
+        while (j < map->width)
+        {
+            map_array[i][j] = ft_atoi(splitted_line[j]);
+            j++;
+        }
+        i++;
+    }
+    close(fd);
+}
+*/
+/*
 void    fill_map_array(char *file_name, t_map *map)
 {
     int     fd;
@@ -165,19 +237,20 @@ void    fill_map_array(char *file_name, t_map *map)
     }
     close(fd);
 }
-
-static void print_map(t_map *map)
+*/
+static void print_map(t_map *map, t_map **map_array)
 {
     int     i;
     int     j;
 
     i = 0;
+
     while (i < map->length)
     {
         j = 0;
         while (j < map->width)
         {
-            printf("%2d ", map->height[i][j]);
+            printf("(%d, %d) = %2d\n", (int)map_array[i][j].x, (int)map_array[i][j].y, (int)map_array[i][j].z);
             j++;
         }
         printf("\n");
@@ -187,12 +260,13 @@ static void print_map(t_map *map)
 
 void    read_file(char *file_name, t_map *map)
 {
+    t_map   **map_array;
     // map->length = get_map_length(file_name);
     // map->width = get_map_width(file_name);
     get_map_dimensions(file_name, map);
-    map_memory_allocate(map);
-    fill_map_array(file_name, map);
-    print_map(map);
+    map_array = map_memory_allocate(map);
+    fill_map_array(file_name, map, map_array);
+    print_map(map, map_array);
 }
 
 /*
