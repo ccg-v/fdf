@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/06/28 21:48:21 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/07/02 23:45:25 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,7 @@ clean:
 			$(MAKE) -C $(LIB_DIR) clean
 
 fclean:		clean
-			rf -f $(NAME)
+			rm -f $(NAME)
 			$(MAKE) -C $(LIB_DIR) clean
 
 re:			fclean all
