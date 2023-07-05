@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/02 21:15:13 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:39:56 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ t_map   **fill_map_array(char *file_name, t_map *map, t_map **map_array)
         x = 0;
         while (x < map->width)
         {
-            map_array[x][y].x = x;
-            map_array[x][y].y = y;
-            map_array[x][y].z = ft_atoi(splitted_line[x]);
+            map_array[x][y].vertex.x = x;
+            map_array[x][y].vertex.y = y;
+            map_array[x][y].vertex.z = ft_atoi(splitted_line[x]);
             x++;
         }
         y++;
@@ -119,7 +119,7 @@ static void print_map(t_map *map, t_map **map_array)
         j = 0;
         while (j < map->width)
         {
-            printf("(%d, %d) = %2d\n", (int)map_array[i][j].x, (int)map_array[i][j].y, (int)map_array[i][j].z);
+            printf("(%d, %d) = %2d\n", (int)map_array[i][j].vertex.x, (int)map_array[i][j].vertex.y, (int)map_array[i][j].vertex.z);
             j++;
         }
         printf("\n");
@@ -131,7 +131,7 @@ static void print_map(t_map *map, t_map **map_array)
         j = 0;
         while (j < map->width)
         {
-            printf("%3d", (int)map_array[i][j].z);
+            printf("%3d", (int)map_array[i][j].vertex.z);
             j++;
         }
         printf("\n");
