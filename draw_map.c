@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/05 20:17:37 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/06 19:29:32 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	draw_line(t_map start, t_map end, t_map *map)
 		start.vertex.y += delta_y;
 	}
 }
-
+/*
 void	draw_map(t_map **map_array, t_map *map)
 {
 	int	x;
@@ -74,3 +74,4 @@ void	draw_map(t_map **map_array, t_map *map)
 		y++;
 	}
 }
+*/
