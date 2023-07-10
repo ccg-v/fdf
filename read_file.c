@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/05 18:39:56 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/10 21:22:33 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,22 @@ static void get_map_dimensions(char *file_name, t_map *map)
     close(fd);
 }
 
-t_map   **map_memory_allocate(t_map *map)
+t_vertex   **mesh_memory_allocate(t_map *map)
 {
-    t_map   **map_array;
+    // t_map   **map_array;
     int     i;
     
-    map_array = (t_map **)malloc((map->length + 1) * sizeof(t_map *));
+    map->mesh = (t_vertex **)malloc((map->length + 1) * sizeof(t_vertex *));
     i = 0;
     while (i < map->length)
     {
-        map_array[i] = (t_map *)malloc((map->width + 1) * sizeof(t_map));
+        map->mesh[i] = (t_vertex *)malloc((map->width + 1) * sizeof(t_vertex));
         i++;
     }
-    return (map_array);
+    return (map->mesh);
 }
 
-t_map   **fill_map_array(char *file_name, t_map *map, t_map **map_array)
+t_vertex   **fill_mesh(char *file_name, t_map *map)
 {
     int     fd;
     char    *line;
@@ -97,17 +97,48 @@ t_map   **fill_map_array(char *file_name, t_map *map, t_map **map_array)
         x = 0;
         while (x < map->width)
         {
-            map_array[x][y].vertex.x = x;
-            map_array[x][y].vertex.y = y;
-            map_array[x][y].vertex.z = ft_atoi(splitted_line[x]);
+            map->mesh[x][y].x = x;
+            map->mesh[x][y].y = y;
+            map->mesh[x][y].z = ft_atoi(splitted_line[x]);
             x++;
         }
         y++;
     }
     close(fd);
-    return (map_array);
+    return (map->mesh);
 }
 
+static void print_map(t_map *map)
+{
+    int     i;
+    int     j;
+
+    i = 0;
+    while (i < map->length)
+    {
+        j = 0;
+        while (j < map->width)
+        {
+            printf("(%d, %d) = %2d\n", (int)map->mesh[i][j].x, (int)map->mesh[i][j].y, (int)map->mesh[i][j].z);
+            j++;
+        }
+        printf("\n");
+        i++;
+    }
+    i = 0;
+    while (i < map->length)
+    {
+        j = 0;
+        while (j < map->width)
+        {
+            printf("%3d", (int)map->mesh[i][j].z);
+            j++;
+        }
+        printf("\n");
+        i++;
+    }
+}
+/*
 static void print_map(t_map *map, t_map **map_array)
 {
     int     i;
@@ -138,15 +169,15 @@ static void print_map(t_map *map, t_map **map_array)
         i++;
     }
 }
-
-t_map   **read_file(char *file_name, t_map *map)
+*/
+t_vertex   **read_file(char *file_name, t_map *map)
 {
-    t_map   **map_array;
+    t_vertex   **mesh;
     // map->length = get_map_length(file_name);
     // map->width = get_map_width(file_name);
     get_map_dimensions(file_name, map);
-    map_array = map_memory_allocate(map);
-    map_array = fill_map_array(file_name, map, map_array);
-    print_map(map, map_array);
-    return (map_array);
+    mesh = mesh_memory_allocate(map);
+    mesh = fill_mesh(file_name, map);
+    print_map(map);
+    return (mesh);
 }

@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/05 18:38:21 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/10 23:03:38 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,43 @@ typedef struct s_vertex
 
 typedef struct s_map
 {
+    t_vertex    **mesh;
+    int         width;
+    int         length;
+    int         zoom_factor;
+    int         color;
+}               t_map;
+/*
+typedef struct s_line
+{
+    t_vertex    start;
+    t_vertex    end;
+}               t_line;
+*/
+typedef struct s_image
+{
+    void	    *image;
+	int		    pixel_bits;
+	int		    line_bytes;
+	int		    endian;
+}               t_image;
+
+typedef struct s_fdf
+{
     void        *mlx_ptr;
     void        *win_ptr;
     int         win_x;
     int         win_y;
-    int         width;
-    int         length;
-    // float    x;
-    // float    y;
-    // float    z;
-    t_vertex    vertex;
-    int         zoom_factor;
-    int         color;
-}               t_map;
+    t_image     *image;
+}               t_fdf;
+
 
 char        **ft_split(char const *s, char c);
 int	        ft_atoi(const char *str);
 //int         check_input (int argc, char *file_name);
-t_map       **read_file(char *file_name, t_map *map);
-void	    draw_map(t_map **map_array, t_map *map);
-
-void	    draw_line(t_map start, t_map end, t_map *map);
+t_vertex       **read_file(char *file_name, t_map *map);
+void	    draw_map(t_fdf *fdf, t_map *map);
+void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
+void        on_error_exit(int exit_code);
 
 #endif
