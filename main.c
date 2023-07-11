@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/11 13:05:50 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/11 21:00:15 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_fdf	*set_default_values(t_fdf *fdf)
 	fdf = malloc(sizeof(t_fdf));
 	if (!fdf)
 		on_error_exit(0);
-	fdf->win_x = 1280;
-	fdf->win_y	= 720;
+	fdf->win_x = 2560;
+	fdf->win_y	= 1440;
 	fdf->mlx_ptr = mlx_init();
 	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, fdf->win_x, fdf->win_y, "FdF");
 	// if (!(fdf->mlx_ptr = mlx_init()))
