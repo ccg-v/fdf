@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/10 23:09:21 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/11 12:11:59 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	delta_y /= biggest_delta;
 
 	while ((int)(start.x - end.x) || (int)(start.y - end.y))
+	// while (biggest_delta > 0)
 	{
 		mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, start.x, start.y, 0xffffff);
 		start.x += delta_x;
 		start.y += delta_y;
+		biggest_delta--;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/10 21:22:33 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:53:59 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,13 @@ t_vertex   **mesh_memory_allocate(t_map *map)
     int     i;
     
     map->mesh = (t_vertex **)malloc((map->length + 1) * sizeof(t_vertex *));
+    if (!map->mesh)
+        return (NULL);
     i = 0;
     while (i < map->length)
     {
         map->mesh[i] = (t_vertex *)malloc((map->width + 1) * sizeof(t_vertex));
+        
         i++;
     }
     return (map->mesh);
@@ -114,6 +117,8 @@ static void print_map(t_map *map)
     int     j;
 
     i = 0;
+printf("map->width = %d\n", map->width);
+printf("map->length = %d\n", map->length);
     while (i < map->length)
     {
         j = 0;

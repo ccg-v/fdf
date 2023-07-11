@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/10 23:03:38 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/11 11:59:16 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ typedef struct s_line
 typedef struct s_image
 {
     void	    *image;
-	int		    pixel_bits;
-	int		    line_bytes;
+    char        *address;
+	int		    bits_per_pixel;
+	int		    line_length;
 	int		    endian;
 }               t_image;
 
