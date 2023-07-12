@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/11 11:59:16 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/12 21:52:49 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,28 @@
 # include <fcntl.h>     // open
 # include <stdio.h>     // printf!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # include <unistd.h>    // write
+
+# define WINDOW_WIDTH   1280
+# define WINDOW_HEIGHT  720
+
+typedef struct s_img
+{
+    void	    *image;
+    char        *address;
+	int		    bits_per_pixel;
+	int		    size_line;
+	int		    endian;
+    // t_line      *line;
+}               t_img;
+
+typedef struct s_fdf
+{
+    void        *mlx_ptr;
+    void        *win_ptr;
+    int         win_x;
+    int         win_y;
+    t_img       *image;
+}               t_fdf;
 
 typedef struct s_vertex
 {
@@ -31,8 +53,9 @@ typedef struct s_map
     int         width;
     int         length;
     int         zoom_factor;
-    int         color;
+    // int         color;
 }               t_map;
+
 /*
 typedef struct s_line
 {
@@ -40,23 +63,10 @@ typedef struct s_line
     t_vertex    end;
 }               t_line;
 */
-typedef struct s_image
-{
-    void	    *image;
-    char        *address;
-	int		    bits_per_pixel;
-	int		    line_length;
-	int		    endian;
-}               t_image;
 
-typedef struct s_fdf
-{
-    void        *mlx_ptr;
-    void        *win_ptr;
-    int         win_x;
-    int         win_y;
-    t_image     *image;
-}               t_fdf;
+
+
+
 
 
 char        **ft_split(char const *s, char c);
