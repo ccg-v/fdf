@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/12 21:52:49 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/15 01:01:47 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 typedef struct s_img
 {
     void	    *image;
-    char        *address;
+    char        *buffer;
 	int		    bits_per_pixel;
 	int		    size_line;
 	int		    endian;
@@ -64,15 +64,12 @@ typedef struct s_line
 }               t_line;
 */
 
-
-
-
-
-
 char        **ft_split(char const *s, char c);
 int	        ft_atoi(const char *str);
+void	    ft_bzero(void *s, size_t n);
 //int         check_input (int argc, char *file_name);
-t_vertex       **read_file(char *file_name, t_map *map);
+t_vertex    **read_file(char *file_name, t_map *map);
+void	    build_image(t_img *image, t_map *map, int color);
 void	    draw_map(t_fdf *fdf, t_map *map);
 void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
 void        on_error_exit(int exit_code);

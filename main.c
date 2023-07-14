@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/12 21:52:43 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/15 01:03:52 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_img	*initialize_image(void *mlx_ptr)
 	if (!img)
 		return (NULL);
 	img->image = mlx_new_image(mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-	img->address = mlx_get_data_addr(img->image, &img->bits_per_pixel, \
+	img->buffer = mlx_get_data_addr(img->image, &img->bits_per_pixel, \
 			&img->size_line, &img->endian);
 	// img->line = NULL;
 	return(img);
@@ -91,6 +91,7 @@ int	main(int argc, char **argv)
 	t_fdf		*fdf;
 	t_map		*map;
 	t_vertex	**mesh;
+	t_img		*image;
 	// t_line		*line;
 
 	if (argc != 2)
@@ -99,6 +100,7 @@ int	main(int argc, char **argv)
 	{
 		fdf = initialize_fdf();
 		map = initialize_map();
+		image = initialize_image(fdf->mlx_ptr);
 		// fdf = NULL;
 		// map = malloc(sizeof(t_map));
 		// if (!map)
@@ -110,6 +112,7 @@ int	main(int argc, char **argv)
 		// line = malloc(sizeof(t_line));
 		// if (!line)
 		// 	on_error_exit(4);
+		build_image(image, map, 0xffffff);
 		draw_map(fdf, map);
 		mlx_loop(fdf->mlx_ptr);
 		return (0);
