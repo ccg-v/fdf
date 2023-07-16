@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/07/14 21:58:51 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/07/16 20:33:17 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ LIB_PATH		= 		$(addprefix $(LIB_DIR), $(LIB_NAME))
 SRC_FILES		=		main.c \
 						check_input.c \
 						read_file.c \
-						draw_map.c \
+						draw_mesh.c \
 						on_error_exit.c \
 						ft_atoi.c \
 						ft_split.c \
@@ -62,14 +62,14 @@ all:
 		$(MAKE) $(NAME)
 
 $(NAME): $(OBJ_FILES) $(LIB_PATH)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ_FILES) -o $@ $(LIB_INCLUDE) $(LIB_FLAGS)
+	$(CC) $(CFLAGS) -fsanitize=address $(INCLUDES) $(OBJ_FILES) -o $@ $(LIB_INCLUDE) $(LIB_FLAGS)
 
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 -include $(DEP_FILES)
 
-# gcc -Wall -Wextra -Werror -I minilibx_macos/ read_file.c draw_map.c ft_atoi.c ft_split.c 
+# gcc -Wall -Wextra -Werror -I minilibx_macos/ read_file.c draw_mesh.c ft_atoi.c ft_split.c 
 # 	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c 
 # 	-L minilibx_macos -lmlx -framework OpenGL -framework AppKit
 

@@ -35,7 +35,7 @@ typedef struct	glsl_info_s
   GLint		loc_image_winhalfsize;
   GLint		loc_image_texture;
   GLint		loc_image_pos;
-  GLint		loc_image_size;
+  GLint		loc_image_bytes;
 
   GLuint	font_vshader;
   GLuint	font_fshader;

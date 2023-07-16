@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/11 20:17:36 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/16 22:26:10 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,20 +126,23 @@ static void print_map(t_map *map)
     line = 0;
     height_lines = map->length;
     width_columns = map->width;
-    while (line < map->length)
-    {
-        column = 0;
-        while (column < map->width)
-        {
-            printf("(%d, %d) = %2d\n", (int)map->mesh[line][column].x, (int)map->mesh[line][column].y, (int)map->mesh[line][column].z);
-            X = (int)map->mesh[line][column].x;
-            Y = (int)map->mesh[line][column].y;
-            Z = (int)map->mesh[line][column].z;
-            column++;
-        }
-        printf("\n");
-        line++;
-    }
+    // while (line < map->length)
+    // {
+    //     column = 0;
+    //     while (column < map->width)
+    //     {
+    //         printf("(%d, %d) = %2d\n", (int)map->mesh[line][column].x, \
+    //             (int)map->mesh[line][column].y, (int)map->mesh[line][column].z);
+    //         X = (int)map->mesh[line][column].x;
+    //         Y = (int)map->mesh[line][column].y;
+    //         Z = (int)map->mesh[line][column].z;
+    //         column++;
+    //     }
+    //     printf("\n");
+    //     line++;
+    // }
+    // line = 0;
+    printf("-------- array of altitudes --------\n"); 
     line = 0;
     while (line < map->length)
     {
@@ -155,39 +158,25 @@ static void print_map(t_map *map)
         printf("\n");
         line++;
     }
+    printf("------- array of coordenates -------\n"); 
+    line = 0;
+    while (line < map->length)
+    {
+        column = 0;
+        while (column < map->width)
+        {
+            printf("(%d, %2d, %2d) ", (int)map->mesh[line][column].x, \
+                (int)map->mesh[line][column].y, (int)map->mesh[line][column].z);
+            X = (int)map->mesh[line][column].x;
+            Y = (int)map->mesh[line][column].y;
+            Z = (int)map->mesh[line][column].z;
+            column++;
+        }
+        printf("\n");
+        line++;
+    }  
 }
-/*
-static void print_map(t_map *map, t_map **map_array)
-{
-    int     i;
-    int     j;
 
-    i = 0;
-    while (i < map->length)
-    {
-        j = 0;
-        while (j < map->width)
-        {
-            printf("(%d, %d) = %2d\n", (int)map_array[i][j].vertex.x, (int)map_array[i][j].vertex.y, (int)map_array[i][j].vertex.z);
-            j++;
-        }
-        printf("\n");
-        i++;
-    }
-    i = 0;
-    while (i < map->length)
-    {
-        j = 0;
-        while (j < map->width)
-        {
-            printf("%3d", (int)map_array[i][j].vertex.z);
-            j++;
-        }
-        printf("\n");
-        i++;
-    }
-}
-*/
 t_vertex   **read_file(char *file_name, t_map *map)
 {
     t_vertex   **mesh;

@@ -34,7 +34,7 @@ int mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color, char *
 {
   static void *font = (void *)0;
   static unsigned char *data = (void *)0;
-  static int size_line = 0;
+  static int line_bytes = 0;
   int bpp;
   int endian;
   int pos;
@@ -45,8 +45,8 @@ int mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color, char *
   if (font == (void *)0)
     {
       font = mlx_new_image(mlx_ptr, font_atlas.width, font_atlas.height);
-      data = (unsigned char *)mlx_get_data_addr(font, &bpp, &size_line, &endian);
-      mlx_int_fill(data, size_line);
+      data = (unsigned char *)mlx_get_data_addr(font, &bpp, &line_bytes, &endian);
+      mlx_int_fill(data, line_bytes);
     }
 
   color = (color&0xFFFFFF)|0xFF000000;
