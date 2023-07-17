@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/16 21:27:15 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/18 00:38:50 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_map
     t_vertex    **mesh;
     int         width;
     int         length;
-    int         zoom_factor;
+    int         scale_factor;
     // int         color;
 }               t_map;
 
@@ -74,7 +74,9 @@ void	    clear_image(t_img *image);
 void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    draw_mesh(t_fdf *fdf, t_map *map);
 void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
-void	    to_isometric(t_vertex start, t_vertex end);
+void	    to_isometric(t_vertex *start, t_vertex *end);
+void	    scale_to_fit(t_map	*map);
+void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
 void        on_error_exit(int exit_code);
 
 #endif

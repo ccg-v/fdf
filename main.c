@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/16 21:00:32 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:18:49 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	initialize_map(t_map *map)
 	map->mesh = NULL;
 	map->width = 0;
 	map->length = 0;
-	map->zoom_factor = 20;
+	map->scale_factor = 25;
 	// return (map);
 }
 
@@ -84,6 +84,7 @@ int	main(int argc, char **argv)
 		mesh = read_file(argv[1], &map);
 		// clear_image(&(*fdf.image));
 		// clear_image(fdf.image);
+		scale_to_fit(&map);
 		draw_mesh(&fdf, &map);
 		// mlx_loop(&(*fdf.mlx_ptr));
 		mlx_loop(fdf.mlx_ptr);

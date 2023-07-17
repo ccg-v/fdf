@@ -75,13 +75,20 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 {
 	float	delta_x;
 	float	delta_y;
-	int	biggest_delta;
+	int		biggest_delta;
 
-	to_isometric(start, end);
-	start.x *= map->zoom_factor;
-	start.y *= map->zoom_factor;
-	end.x *= map->zoom_factor;
-	end.y *= map->zoom_factor;
+	// t_vertex	new_start;
+	// t_vertex	new_end;
+
+	start.x *= map->scale_factor;
+	start.y *= map->scale_factor;
+	start.z *= map->scale_factor;
+	end.x *= map->scale_factor;
+	end.y *= map->scale_factor;
+	end.z *= map->scale_factor;
+
+	center_in_image(map, &start, &end);
+	// to_isometric(&start, &end);
 
 	delta_x = end.x - start.x;
 	delta_y = end.y - start.y;
@@ -124,23 +131,70 @@ void	draw_mesh(t_fdf *fdf, t_map *map)
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr , fdf->image->image, 0, 0);
 }
 
-void	to_isometric(t_vertex start, t_vertex end)
+void	center_in_image(t_map *map, t_vertex *start, t_vertex *end)
 {
 	t_vertex	new_start;
 	t_vertex	new_end;
 
-	new_start.x = (start.x - start.y) * cos(0.523599);
-	new_start.x = (start.x + start.y) * sin(0.523599) - start.z;
-	start.x = new_start.x;
-	start.y = new_start.y;
-	new_end.x = (end.x - end.y) * cos(0.523599);
-	new_end.x = (end.x + end.y) * sin(0.523599) - end.z;
-	printf("start:(%d, %d, %d) becomes new_start:(%d, %d, %d)\n", (int)start.x, (int)start.y, (int)start.z, (int)new_start.x, (int)new_start.y, (int)start.z);
-	printf("  end:(%d, %d, %d) becomes   new_end:(%d, %d, %d)\n", (int)end.x, (int)end.y, (int)end.z, (int)new_end.x, (int)new_end.y, (int)end.z);
-	end.x = new_end.x;
-	end.y = new_end.y;
+	// new_start.x = start->x + ((WINDOW_WIDTH - map->width) / 2) - (map->scale_factor * (map->width / 2));
+	// new_start.y = start->y + ((WINDOW_HEIGHT - map->length) / 2) - (map->scale_factor * (map->length / 2));
+	new_start.x = start->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2);
+	new_start.y = start->y + ((WINDOW_HEIGHT - (map->length * map->scale_factor)) / 2);
 
+	printf("------------------- CENTERING -------------------\n");
+	printf("start:(%d, %d, %d) becomes new_start:(%d, %d, %d)\n", (int)start->x, (int)start->y, (int)start->z, (int)new_start.x, (int)new_start.y, (int)start->z);
+	start->x = new_start.x;
+	start->y = new_start.y;
+	new_end.x = end->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2);
+	new_end.y = end->y + ((WINDOW_HEIGHT - (map->length * map->scale_factor)) / 2);
+	printf("end:(%d, %d, %d) becomes   new_end:(%d, %d, %d)\n", (int)end->x, (int)end->y, (int)end->z, (int)new_end.x, (int)new_end.y, (int)end->z);
+	end->x = new_end.x;
+	end->y = new_end.y;
+}
 
+void	to_isometric(t_vertex *start, t_vertex *end)
+{
+	t_vertex	new_start;
+	t_vertex	new_end;
+
+	new_start.x = (start->x - start->y) * cos(0.523599);
+	new_start.x = (start->x + start->y) * sin(0.523599) - start->z;
+	printf("------------------- ISOMETRIC -------------------\n");
+	printf("start:(%d, %d, %d) becomes new_start:(%d, %d, %d)\n", (int)start->x, (int)start->y, (int)start->z, (int)new_start.x, (int)new_start.y, (int)start->z);
+	start->x = new_start.x;
+	start->y = new_start.y;
+	new_end.x = (end->x - end->y) * cos(0.523599);
+	new_end.x = (end->x + end->y) * sin(0.523599) - end->z;
+	printf("  end:(%d, %d, %d) becomes   new_end:(%d, %d, %d)\n", (int)end->x, (int)end->y, (int)end->z, (int)new_end.x, (int)new_end.y, (int)end->z);
+	end->x = new_end.x;
+	end->y = new_end.y;
+}
+
+void	scale_to_fit(t_map	*map)
+{
+	float	scale_x;
+	float	scale_y;
+
+	scale_x = (WINDOW_WIDTH / 2) / map->width;
+	scale_y = (WINDOW_HEIGHT / 2) / map->length;
+
+	printf("scale_x = %f\n", scale_x);
+	printf("scale_y = %f\n", scale_y);
+	// if ((map->width * map->scale_factor) >= WINDOW_WIDTH)
+	// {
+	// 	map->scale_factor = scale_x;
+	// 	printf("scale_x = %f\n", scale_x);
+	// }
+	// if ((map->length * map->scale_factor) >= WINDOW_HEIGHT)
+	// {
+
+	// 	printf("scale_y = %f\n", scale_y);
+	// }		
+	if (scale_x >= scale_y)
+		map->scale_factor = (int)scale_x;
+	else if (scale_y > scale_x)
+		map->scale_factor = (int)scale_y;
+	printf("scale factor (%d)\n", map->scale_factor);
 }
 
 /*
