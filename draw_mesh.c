@@ -88,7 +88,7 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	end.z *= map->scale_factor;
 
 	center_in_image(map, &start, &end);
-	// to_isometric(&start, &end);
+	to_isometric(&start, &end);
 
 	delta_x = end.x - start.x;
 	delta_y = end.y - start.y;
@@ -138,16 +138,16 @@ void	center_in_image(t_map *map, t_vertex *start, t_vertex *end)
 
 	// new_start.x = start->x + ((WINDOW_WIDTH - map->width) / 2) - (map->scale_factor * (map->width / 2));
 	// new_start.y = start->y + ((WINDOW_HEIGHT - map->length) / 2) - (map->scale_factor * (map->length / 2));
-	new_start.x = start->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2);
-	new_start.y = start->y + ((WINDOW_HEIGHT - (map->length * map->scale_factor)) / 2);
+	new_start.x = start->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2 + (map->scale_factor / 2));
+	new_start.y = start->y + ((WINDOW_HEIGHT - (map->length * map->scale_factor)) / 2 + (map->scale_factor / 2));
 
-	printf("------------------- CENTERING -------------------\n");
-	printf("start:(%d, %d, %d) becomes new_start:(%d, %d, %d)\n", (int)start->x, (int)start->y, (int)start->z, (int)new_start.x, (int)new_start.y, (int)start->z);
+	// printf("------------------- CENTERING -------------------\n");
+	// printf("start:(%d, %d, %d) becomes new_start:(%d, %d, %d)\n", (int)start->x, (int)start->y, (int)start->z, (int)new_start.x, (int)new_start.y, (int)start->z);
 	start->x = new_start.x;
 	start->y = new_start.y;
-	new_end.x = end->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2);
-	new_end.y = end->y + ((WINDOW_HEIGHT - (map->length * map->scale_factor)) / 2);
-	printf("end:(%d, %d, %d) becomes   new_end:(%d, %d, %d)\n", (int)end->x, (int)end->y, (int)end->z, (int)new_end.x, (int)new_end.y, (int)end->z);
+	new_end.x = end->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2 + (map->scale_factor / 2));
+	new_end.y = end->y + ((WINDOW_HEIGHT - (map->length * map->scale_factor)) / 2 + (map->scale_factor / 2));
+	// printf("end:(%d, %d, %d) becomes   new_end:(%d, %d, %d)\n", (int)end->x, (int)end->y, (int)end->z, (int)new_end.x, (int)new_end.y, (int)end->z);
 	end->x = new_end.x;
 	end->y = new_end.y;
 }
