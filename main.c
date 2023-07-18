@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/17 23:18:49 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:10:21 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void	initialize_map(t_map *map)
 	map->width = 0;
 	map->length = 0;
 	map->scale_factor = 25;
+	map->min_x = INT_MAX;
+	map->max_x = INT_MIN;
+	map->min_y = INT_MAX;
+	map->max_y = INT_MIN;
 	// return (map);
 }
 

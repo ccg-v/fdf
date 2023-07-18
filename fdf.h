@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/18 00:38:50 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/18 23:14:17 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <fcntl.h>     // open
 # include <stdio.h>     // printf!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # include <unistd.h>    // write
+# include <limits.h>    // INT_MIN, INT_MAX
 
 # define WINDOW_WIDTH   1280
 # define WINDOW_HEIGHT  720
@@ -54,6 +55,10 @@ typedef struct s_map
     int         width;
     int         length;
     int         scale_factor;
+    float       min_x;
+    float       max_x;
+    float       min_y;
+    float       max_y;
     // int         color;
 }               t_map;
 
@@ -77,6 +82,7 @@ void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
 void	    to_isometric(t_vertex *start, t_vertex *end);
 void	    scale_to_fit(t_map	*map);
 void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
+void	    center_isometric(t_map *map, t_vertex *start, t_vertex *end);
 void        on_error_exit(int exit_code);
 
 #endif

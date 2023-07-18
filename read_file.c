@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/16 22:26:10 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:39:55 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,26 @@ t_vertex   **fill_mesh(char *file_name, t_map *map)
     close(fd);
     return (map->mesh);
 }
+/*
+void    center_to_origin(t_map *map)
+{
+    int x;
+    int y;
 
+    y = 0;
+    while (y < map->length)
+    {
+        x = 0;
+        while (x < map->width)
+        {
+            map->mesh[y][x].x -= map->width;
+            map->mesh[y][x].y -= map->length;
+            x++;
+        }
+        y++;
+    }
+}
+*/
 static void print_map(t_map *map)
 {
     int     line;
@@ -185,6 +204,7 @@ t_vertex   **read_file(char *file_name, t_map *map)
     get_map_dimensions(file_name, map);
     mesh = mesh_memory_allocate(map);
     mesh = fill_mesh(file_name, map);
+	// center_to_origin(map);
     print_map(map);
     return (mesh);
 }

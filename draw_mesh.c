@@ -21,6 +21,14 @@ float	ft_abs(float num)
 	return (num);
 }
 
+float	deg_to_rad(float deg_angle)
+{
+	float	rad_angle;
+
+	rad_angle = (deg_angle * M_PI) / 180;
+	return (rad_angle);
+}
+
 void	clear_image(t_img *image)
 {
 	int	x;
@@ -77,9 +85,6 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	float	delta_y;
 	int		biggest_delta;
 
-	// t_vertex	new_start;
-	// t_vertex	new_end;
-
 	start.x *= map->scale_factor;
 	start.y *= map->scale_factor;
 	start.z *= map->scale_factor;
@@ -87,9 +92,11 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	end.y *= map->scale_factor;
 	end.z *= map->scale_factor;
 
-	center_in_image(map, &start, &end);
-	to_isometric(&start, &end);
 
+	// center_isometric(map, &start, &end);
+ 	to_isometric(&start, &end);
+	center_in_image(map, &start, &end);
+	
 	delta_x = end.x - start.x;
 	delta_y = end.y - start.y;
 	if (ft_abs(delta_x) >= ft_abs(delta_y))
@@ -102,7 +109,6 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	while ((int)(start.x - end.x) || (int)(start.y - end.y))
 	// while (biggest_delta > 0)
 	{
-		// mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, start.x, start.y, 0xffffff);
 		put_pixel_to_image(fdf->image, start.x, start.y, 0xffffff);
 		start.x += delta_x;
 		start.y += delta_y;
@@ -135,21 +141,36 @@ void	center_in_image(t_map *map, t_vertex *start, t_vertex *end)
 {
 	t_vertex	new_start;
 	t_vertex	new_end;
-
+	
 	// new_start.x = start->x + ((WINDOW_WIDTH - map->width) / 2) - (map->scale_factor * (map->width / 2));
 	// new_start.y = start->y + ((WINDOW_HEIGHT - map->length) / 2) - (map->scale_factor * (map->length / 2));
-	new_start.x = start->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2 + (map->scale_factor / 2));
+	new_start.x = start->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2 + (map->scale_factor * 1.5) * (map->width / 2));
 	new_start.y = start->y + ((WINDOW_HEIGHT - (map->length * map->scale_factor)) / 2 + (map->scale_factor / 2));
 
 	// printf("------------------- CENTERING -------------------\n");
 	// printf("start:(%d, %d, %d) becomes new_start:(%d, %d, %d)\n", (int)start->x, (int)start->y, (int)start->z, (int)new_start.x, (int)new_start.y, (int)start->z);
 	start->x = new_start.x;
 	start->y = new_start.y;
-	new_end.x = end->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2 + (map->scale_factor / 2));
+	new_end.x = end->x + ((WINDOW_WIDTH - (map->width * map->scale_factor)) / 2 + (map->scale_factor * 1.5) * (map->width / 2));
 	new_end.y = end->y + ((WINDOW_HEIGHT - (map->length * map->scale_factor)) / 2 + (map->scale_factor / 2));
 	// printf("end:(%d, %d, %d) becomes   new_end:(%d, %d, %d)\n", (int)end->x, (int)end->y, (int)end->z, (int)new_end.x, (int)new_end.y, (int)end->z);
 	end->x = new_end.x;
 	end->y = new_end.y;
+}
+
+void	center_isometric(t_map *map, t_vertex *start, t_vertex *end)
+{
+	t_vertex	new_start;
+	t_vertex	new_end;
+
+	new_start.x = start->x + ((map->scale_factor * 2) * (map->width / 2));
+	new_start.y = start->y + ((map->scale_factor * 2) * (map->width / 2));
+	start->x = new_start.x;
+	start->y = new_start.y;	
+	new_end.x = end->x + ((map->scale_factor * 2) * (map->width / 2));
+	new_end.y = end->y + ((map->scale_factor * 2) * (map->width / 2));
+	end->x = new_end.x;
+	end->y = new_end.y;	
 }
 
 void	to_isometric(t_vertex *start, t_vertex *end)
@@ -157,14 +178,17 @@ void	to_isometric(t_vertex *start, t_vertex *end)
 	t_vertex	new_start;
 	t_vertex	new_end;
 
-	new_start.x = (start->x - start->y) * cos(0.523599);
-	new_start.x = (start->x + start->y) * sin(0.523599) - start->z;
+	// map->scale_factor /= 2;
+
+	// printf("map->scale_factor = %d\n", map->scale_factor);
+	new_start.x = (start->x - start->y) * cos(deg_to_rad(30));
+	new_start.y = (start->x + start->y) * sin(deg_to_rad(30)) - start->z;
 	printf("------------------- ISOMETRIC -------------------\n");
 	printf("start:(%d, %d, %d) becomes new_start:(%d, %d, %d)\n", (int)start->x, (int)start->y, (int)start->z, (int)new_start.x, (int)new_start.y, (int)start->z);
 	start->x = new_start.x;
 	start->y = new_start.y;
-	new_end.x = (end->x - end->y) * cos(0.523599);
-	new_end.x = (end->x + end->y) * sin(0.523599) - end->z;
+	new_end.x = (end->x - end->y) * cos(deg_to_rad(30));
+	new_end.y = (end->x + end->y) * sin(deg_to_rad(30)) - end->z;
 	printf("  end:(%d, %d, %d) becomes   new_end:(%d, %d, %d)\n", (int)end->x, (int)end->y, (int)end->z, (int)new_end.x, (int)new_end.y, (int)end->z);
 	end->x = new_end.x;
 	end->y = new_end.y;
