@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/18 20:39:55 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:50:08 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ t_vertex   **fill_mesh(char *file_name, t_map *map)
         x = 0;
         while (x < map->width)
         {
-            map->mesh[y][x].x = x;
-            map->mesh[y][x].y = y;
+            map->mesh[y][x].x = x - (map->width / 2);
+            map->mesh[y][x].y = y - (map->length / 2);
             map->mesh[y][x].z = ft_atoi(splitted_line[x]);
             x++;
         }
@@ -131,7 +131,7 @@ void    center_to_origin(t_map *map)
     }
 }
 */
-static void print_map(t_map *map)
+void print_map(t_map *map)
 {
     int     line;
     int     column;
@@ -145,22 +145,6 @@ static void print_map(t_map *map)
     line = 0;
     height_lines = map->length;
     width_columns = map->width;
-    // while (line < map->length)
-    // {
-    //     column = 0;
-    //     while (column < map->width)
-    //     {
-    //         printf("(%d, %d) = %2d\n", (int)map->mesh[line][column].x, \
-    //             (int)map->mesh[line][column].y, (int)map->mesh[line][column].z);
-    //         X = (int)map->mesh[line][column].x;
-    //         Y = (int)map->mesh[line][column].y;
-    //         Z = (int)map->mesh[line][column].z;
-    //         column++;
-    //     }
-    //     printf("\n");
-    //     line++;
-    // }
-    // line = 0;
     printf("-------- array of altitudes --------\n"); 
     line = 0;
     while (line < map->length)

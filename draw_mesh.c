@@ -92,11 +92,11 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	end.y *= map->scale_factor;
 	end.z *= map->scale_factor;
 
-
-	// center_isometric(map, &start, &end);
- 	to_isometric(&start, &end);
+	to_isometric(&start, &end);
 	center_in_image(map, &start, &end);
-	
+	// center_isometric(&start, &end);
+	// center_to_origin(map);
+
 	delta_x = end.x - start.x;
 	delta_y = end.y - start.y;
 	if (ft_abs(delta_x) >= ft_abs(delta_y))
@@ -158,20 +158,41 @@ void	center_in_image(t_map *map, t_vertex *start, t_vertex *end)
 	end->y = new_end.y;
 }
 
-void	center_isometric(t_map *map, t_vertex *start, t_vertex *end)
+void	center_isometric(t_vertex *start, t_vertex *end)
 {
 	t_vertex	new_start;
 	t_vertex	new_end;
 
-	new_start.x = start->x + ((map->scale_factor * 2) * (map->width / 2));
-	new_start.y = start->y + ((map->scale_factor * 2) * (map->width / 2));
+
+	new_start.x = start->x + (WINDOW_WIDTH / 2);
+	new_start.y = start->y + (WINDOW_HEIGHT / 4);
 	start->x = new_start.x;
-	start->y = new_start.y;	
-	new_end.x = end->x + ((map->scale_factor * 2) * (map->width / 2));
-	new_end.y = end->y + ((map->scale_factor * 2) * (map->width / 2));
+	start->y = new_start.y;
+	new_end.x = end->x + (WINDOW_WIDTH / 2);
+	new_end.y = end->y + (WINDOW_HEIGHT / 4);
 	end->x = new_end.x;
-	end->y = new_end.y;	
+	end->y = new_end.y;
 }
+
+/*
+void	center_to_origin(t_map *map)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < map->length)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			map->mesh[y][x].x -= (map->width / 2);
+			map->mesh[y][x].y -= (map->length / 2);
+		}
+		y++;
+	}
+}
+*/
 
 void	to_isometric(t_vertex *start, t_vertex *end)
 {

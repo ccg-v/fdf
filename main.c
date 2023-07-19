@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/18 22:10:21 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:41:49 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ int	main(int argc, char **argv)
 		mesh = read_file(argv[1], &map);
 		// clear_image(&(*fdf.image));
 		// clear_image(fdf.image);
+		// center_to_origin(&map);
 		scale_to_fit(&map);
+
 		draw_mesh(&fdf, &map);
 		// mlx_loop(&(*fdf.mlx_ptr));
 		mlx_loop(fdf.mlx_ptr);
