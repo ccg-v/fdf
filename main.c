@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/19 16:41:49 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:00:42 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,8 @@ void	initialize_map(t_map *map)
 	map->width = 0;
 	map->length = 0;
 	map->scale_factor = 25;
-	map->min_x = INT_MAX;
-	map->max_x = INT_MIN;
-	map->min_y = INT_MAX;
-	map->max_y = INT_MIN;
+	map->min_z = 0;
+	map->max_z = 0;
 	// return (map);
 }
 
@@ -76,16 +74,24 @@ int	main(int argc, char **argv)
 		printf("fdf->win_x = %d\n", fdf.win_x);
 		printf("fdf->win_y = %d\n", fdf.win_y);
 		printf("address pointed to by fdf->image = %p\n", fdf.image);
-		printf("address of fdf->image itself     = %p\n", &fdf.image);		
+		printf("address of fdf->image itself     = %p\n", &fdf.image);
 		printf("--------------------- IMAGE ---------------------\n");
-		printf("%s\n", fdf.image->buffer);
 		printf("bits_per_pixel = %d\n", fdf.image->bits_per_pixel);
 		printf("line_bytes = %d\n", fdf.image->line_bytes);
 		printf("endian = %d\n", fdf.image->endian);
 		printf("image_bytes = %d\n", fdf.image->image_bytes);	
 
 		initialize_map(&map);
+		printf("---------------------- MAP ----------------------\n");
+		printf("min_z = %d\n", map.min_z);
+		printf("max_z = %d\n", map.max_z);	
+
 		mesh = read_file(argv[1], &map);
+		
+		printf("min_z = %d\n", map.min_z);
+		printf("max_z = %d\n", map.max_z);
+		center_to_origin(&map);
+		print_map(&map);
 		// clear_image(&(*fdf.image));
 		// clear_image(fdf.image);
 		// center_to_origin(&map);

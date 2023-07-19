@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/19 16:50:08 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:08:17 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ t_vertex   **mesh_memory_allocate(t_map *map)
 }
 
 /*  Remember: y is the line, x is the column    */
+/*  Fill the mesh with each point's coordinates */
+/*  and save the maximum and minimun z values   */
 t_vertex   **fill_mesh(char *file_name, t_map *map)
 {
     int     fd;
@@ -101,9 +103,13 @@ t_vertex   **fill_mesh(char *file_name, t_map *map)
         x = 0;
         while (x < map->width)
         {
-            map->mesh[y][x].x = x - (map->width / 2);
-            map->mesh[y][x].y = y - (map->length / 2);
+            map->mesh[y][x].x = x; //- (map->width / 2);
+            map->mesh[y][x].y = y; //- (map->length / 2);
             map->mesh[y][x].z = ft_atoi(splitted_line[x]);
+            if (map->mesh[y][x].z < map->min_z)
+                map->min_z = map->mesh[y][x].z;
+            if (map->mesh[y][x].z > map->max_z)
+                map->max_z = map->mesh[y][x].z;               
             x++;
         }
         y++;
@@ -111,26 +117,7 @@ t_vertex   **fill_mesh(char *file_name, t_map *map)
     close(fd);
     return (map->mesh);
 }
-/*
-void    center_to_origin(t_map *map)
-{
-    int x;
-    int y;
 
-    y = 0;
-    while (y < map->length)
-    {
-        x = 0;
-        while (x < map->width)
-        {
-            map->mesh[y][x].x -= map->width;
-            map->mesh[y][x].y -= map->length;
-            x++;
-        }
-        y++;
-    }
-}
-*/
 void print_map(t_map *map)
 {
     int     line;
@@ -168,8 +155,8 @@ void print_map(t_map *map)
         column = 0;
         while (column < map->width)
         {
-            printf("(%d, %2d, %2d) ", (int)map->mesh[line][column].x, \
-                (int)map->mesh[line][column].y, (int)map->mesh[line][column].z);
+            printf("(%2f, %2f, %2f) ", map->mesh[line][column].x, \
+                map->mesh[line][column].y, map->mesh[line][column].z);
             X = (int)map->mesh[line][column].x;
             Y = (int)map->mesh[line][column].y;
             Z = (int)map->mesh[line][column].z;

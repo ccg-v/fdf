@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/19 16:50:38 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/19 23:59:23 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,10 @@ typedef struct s_map
     int         width;
     int         length;
     int         scale_factor;
-    float       min_x;
-    float       max_x;
-    float       min_y;
-    float       max_y;
+    int         min_z;
+    int         max_z;
     // int         color;
 }               t_map;
-
-/*
-typedef struct s_line
-{
-    t_vertex    start;
-    t_vertex    end;
-}               t_line;
-*/
 
 char        **ft_split(char const *s, char c);
 int	        ft_atoi(const char *str);
@@ -83,7 +73,7 @@ void	    to_isometric(t_vertex *start, t_vertex *end);
 void	    scale_to_fit(t_map	*map);
 void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
 void	    center_isometric(t_vertex *start, t_vertex *end);
-// void        center_to_origin(t_map *map);
+void        center_to_origin(t_map *map);
 void        on_error_exit(int exit_code);
 void        print_map(t_map *map);
 
