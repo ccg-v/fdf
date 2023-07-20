@@ -84,6 +84,7 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	float	delta_x;
 	float	delta_y;
 	int		biggest_delta;
+	int		i;
 
 	start.x *= map->scale_factor;
 	start.y *= map->scale_factor;
@@ -93,9 +94,7 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	end.z *= map->scale_factor;
 
 	to_isometric(&start, &end);
-	// center_in_image(map, &start, &end);
 	center_isometric(&start, &end);
-	// center_to_origin(map);
 
 	delta_x = end.x - start.x;
 	delta_y = end.y - start.y;
@@ -106,13 +105,18 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	delta_x /= biggest_delta;
 	delta_y /= biggest_delta;
 
+	i = 0;
 	// while ((int)(start.x - end.x) || (int)(start.y - end.y))
-	while (biggest_delta > 0)
+	while (i < biggest_delta)
 	{
-		put_pixel_to_image(fdf->image, start.x, start.y, 0xffffff);
-		start.x += delta_x;
-		start.y += delta_y;
-		biggest_delta--;
+		if (start.x > 0 && start.y > 0 && start.x < WINDOW_WIDTH && start.y < WINDOW_HEIGHT)
+		{
+			put_pixel_to_image(fdf->image, start.x, start.y, 0xffffff);
+			start.x += delta_x;
+			start.y += delta_y;
+			// biggest_delta--;
+			i++;
+		}
 	}
 }
 
@@ -120,6 +124,7 @@ void	draw_mesh(t_fdf *fdf, t_map *map)
 {
 	int	x;
 	int	y;
+	
 	y = 0;
 	while (y < map->length)
 	{
@@ -149,7 +154,7 @@ void	center_isometric(t_vertex *start, t_vertex *end)
 	start->y = new_start.y;
 	new_end.x = end->x + (WINDOW_WIDTH / 2);
 	new_end.y = end->y + (WINDOW_HEIGHT / 2);
-	printf("CENTER IN SCREEN  : (%d, %d)-->(%d, %d) becomes (%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
+printf("CENTER IN SCREEN  : (%d, %d)-->(%d, %d) becomes (%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
 	end->x = new_end.x;
 	end->y = new_end.y;
 }
@@ -166,15 +171,13 @@ void	center_to_origin(t_map *map)
 		while (x < map->width)
 		{
 			if ((map->width % 2) > 0)
-			{
 				map->mesh[y][x].x -= (map->width / 2);
-				map->mesh[y][x].y -= (map->length / 2);
-			}
 			else
-			{
 				map->mesh[y][x].x -= (map->width / 2) - 0.5;
+			if ((map->length % 2) > 0)
+				map->mesh[y][x].y -= (map->length / 2);
+			else
 				map->mesh[y][x].y -= (map->length / 2) - 0.5;				
-			}
 			x++;
 		}
 		y++;
@@ -185,21 +188,40 @@ void	to_isometric(t_vertex *start, t_vertex *end)
 {
 	t_vertex	new_start;
 	t_vertex	new_end;
+float	start_x;
+float	start_y;
+float	end_x;
+float	end_y;
+float	new_start_x;
+float	new_start_y;
+float	new_end_x;
+float	new_end_y;
 
-	// map->scale_factor /= 2;
+start_x = start->x;
+start_y = start->y;
 
-	// printf("map->scale_factor = %d\n", map->scale_factor);
 	new_start.x = (start->x - start->y) * cos(deg_to_rad(30));
 	new_start.y = (start->x + start->y) * sin(deg_to_rad(30)) - start->z;
-	// printf("------------------- ISOMETRIC -------------------\n");
-	// printf("start:(%d, %d, %d) becomes new_start:(%d, %d, %d)\n", (int)start->x, (int)start->y, (int)start->z, (int)new_start.x, (int)new_start.y, (int)start->z);
+	printf("------------------- ISOMETRIC -------------------\n");
+	printf("start:(%f, %f) becomes new_start:(%f, %f)\n", start->x, start->y, new_start.x, new_start.y);
+	// printf("start:(%f, %f) becomes new_start:(%f, %f)\n", start->x / map->scale_factor, start->y / map->scale_factor, new_start.x / map->scale_factor, new_start.y / map->scale_factor);
 	start->x = new_start.x;
 	start->y = new_start.y;
+
+new_start_x = start->x;
+new_start_y = start->y;
+end_x = end->x;
+end_y = end->y;
+
 	new_end.x = (end->x - end->y) * cos(deg_to_rad(30));
 	new_end.y = (end->x + end->y) * sin(deg_to_rad(30)) - end->z;
-	// printf("  end:(%d, %d, %d) becomes   new_end:(%d, %d, %d)\n", (int)end->x, (int)end->y, (int)end->z, (int)new_end.x, (int)new_end.y, (int)end->z);
+	printf("  end:(%f, %f) becomes   new_end:(%f, %f\n", end->x, end->y, new_end.x, new_end.y);
+	// printf("  end:(%f, %f) becomes   new_end:(%f, %f\n", end->x / map->scale_factor, end->y / map->scale_factor, new_end.x / map->scale_factor, new_end.y / map->scale_factor);
 	end->x = new_end.x;
 	end->y = new_end.y;
+
+new_end_x = end->x;
+new_end_y = end->y;
 	// printf("ISOMETRIC         : (%d, %d)-->(%d, %d) becomes (%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
 }
 

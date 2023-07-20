@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/19 23:59:23 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/21 00:42:21 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,12 @@ void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    draw_mesh(t_fdf *fdf, t_map *map);
 void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
 void	    to_isometric(t_vertex *start, t_vertex *end);
-void	    scale_to_fit(t_map	*map);
+void	    scale_to_fit(t_map *map);
 void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
 void	    center_isometric(t_vertex *start, t_vertex *end);
 void        center_to_origin(t_map *map);
 void        on_error_exit(int exit_code);
-void        print_map(t_map *map);
 
+void        print_altitudes(t_map *map);
+void        print_coordenates(t_map *map);
 #endif
