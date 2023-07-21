@@ -92,7 +92,7 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	end.y *= map->scale_factor;
 	end.z *= map->scale_factor;
 
-//	to_isometric(&start, &end);
+	to_isometric(&start, &end);
 	center_isometric(&start, &end);
 
 	delta_x = end.x - start.x;
@@ -117,6 +117,29 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	}
 }
 
+void draw_mesh(t_fdf *fdf, t_map *map)
+{
+    int x;
+    int y;
+
+    x = 0;
+    while (x < map->width)
+    {
+        y = 0;
+        while (y < map->length)
+        {
+            if (x < (map->width - 1))
+                draw_line(fdf, map, map->mesh[y][x], map->mesh[y][x + 1]);
+            if (y < (map->length - 1))
+                draw_line(fdf, map, map->mesh[y][x], map->mesh[y + 1][x]);
+            y++;
+        }
+        x++;
+    }
+    mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->image->image, 0, 0);
+}
+
+/*
 void	draw_mesh(t_fdf *fdf, t_map *map)
 {
 	int	x;
@@ -138,7 +161,7 @@ void	draw_mesh(t_fdf *fdf, t_map *map)
 	}
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr , fdf->image->image, 0, 0);
 }
-
+*/
 void	center_isometric(t_vertex *start, t_vertex *end)
 {
 	t_vertex	new_start;
