@@ -84,7 +84,6 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	float	delta_x;
 	float	delta_y;
 	int		biggest_delta;
-	int		i;
 
 	start.x *= map->scale_factor;
 	start.y *= map->scale_factor;
@@ -93,7 +92,7 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	end.y *= map->scale_factor;
 	end.z *= map->scale_factor;
 
-	to_isometric(&start, &end);
+//	to_isometric(&start, &end);
 	center_isometric(&start, &end);
 
 	delta_x = end.x - start.x;
@@ -105,17 +104,15 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	delta_x /= biggest_delta;
 	delta_y /= biggest_delta;
 
-	i = 0;
 	// while ((int)(start.x - end.x) || (int)(start.y - end.y))
-	while (i < biggest_delta)
+	while (biggest_delta > 0)
 	{
 		if (start.x > 0 && start.y > 0 && start.x < WINDOW_WIDTH && start.y < WINDOW_HEIGHT)
 		{
 			put_pixel_to_image(fdf->image, start.x, start.y, 0xffffff);
 			start.x += delta_x;
 			start.y += delta_y;
-			// biggest_delta--;
-			i++;
+			biggest_delta--;
 		}
 	}
 }
@@ -150,11 +147,11 @@ void	center_isometric(t_vertex *start, t_vertex *end)
 
 	new_start.x = start->x + (WINDOW_WIDTH / 2);
 	new_start.y = start->y + (WINDOW_HEIGHT / 2);
-	start->x = new_start.x;
-	start->y = new_start.y;
 	new_end.x = end->x + (WINDOW_WIDTH / 2);
 	new_end.y = end->y + (WINDOW_HEIGHT / 2);
 printf("CENTER IN SCREEN  : (%d, %d)-->(%d, %d) becomes (%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
+	start->x = new_start.x;
+	start->y = new_start.y;
 	end->x = new_end.x;
 	end->y = new_end.y;
 }
@@ -215,7 +212,7 @@ end_y = end->y;
 
 	new_end.x = (end->x - end->y) * cos(deg_to_rad(30));
 	new_end.y = (end->x + end->y) * sin(deg_to_rad(30)) - end->z;
-	printf("  end:(%f, %f) becomes   new_end:(%f, %f\n", end->x, end->y, new_end.x, new_end.y);
+	printf("  end:(%f, %f) becomes   new_end:(%f, %f)\n", end->x, end->y, new_end.x, new_end.y);
 	// printf("  end:(%f, %f) becomes   new_end:(%f, %f\n", end->x / map->scale_factor, end->y / map->scale_factor, new_end.x / map->scale_factor, new_end.y / map->scale_factor);
 	end->x = new_end.x;
 	end->y = new_end.y;
