@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/20 22:58:38 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/23 12:58:00 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static int	count_elements(const char *str, char c)
+static int	count_columns(const char *str, char c)
 {
 	int	i;
-	int	num_elements;
+	int	num_columns;
 
 	i = 0;
-	num_elements = 0;
+	num_columns = 0;
 	while (str[i])
 	{
 		while (str[i] == c)
 			i++;
 		if (str[i] != c && str[i] != '\n')
-			num_elements++;
+			num_columns++;
 		while (str[i] && str[i] != c)
 			i++;
 	}
-	return (num_elements);
+	return (num_columns);
 }
 
 static void get_map_dimensions(char *file_name, t_map *map)
@@ -55,11 +55,14 @@ static void get_map_dimensions(char *file_name, t_map *map)
         line = get_next_line(fd);    
         if (flag == 0)
         {
-            map->width = count_elements(line, ' ');
+            map->width = count_columns(line, ' ');
             flag = 1;
         }
         map->length++;
     }
+    close(fd);
+    fd = open(file_name, O_RDONLY, 0);
+    lseek(fd, 0, SEEK_SET);
     close(fd);
 }
 

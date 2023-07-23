@@ -47,7 +47,7 @@ void	clear_image(t_img *image)
 	}
 	y++;
 }
-
+/*
 void	put_pixel_to_image(t_img *image, int x, int y, int color)
 {
     char    *pixel;
@@ -55,8 +55,8 @@ void	put_pixel_to_image(t_img *image, int x, int y, int color)
     pixel = image->buffer + (y * image->line_bytes + x * (image->bits_per_pixel / 8));
     *(int *)pixel = color;
 }
+*/
 
-/*
 void	put_pixel_to_image(t_img *image, float x, float y, int color)
 {
 	int		pixel;
@@ -77,20 +77,20 @@ void	put_pixel_to_image(t_img *image, float x, float y, int color)
 		image->buffer[pixel + 3] = (color >> 24);
 	}
 }
-*/
 
-void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
+// void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
+void	draw_line(t_fdf *fdf, t_vertex start, t_vertex end)
 {
 	float	delta_x;
 	float	delta_y;
 	int		biggest_delta;
 
-	start.x *= map->scale_factor;
-	start.y *= map->scale_factor;
-	start.z *= map->scale_factor;
-	end.x *= map->scale_factor;
-	end.y *= map->scale_factor;
-	end.z *= map->scale_factor;
+	// start.x *= map->scale_factor;
+	// start.y *= map->scale_factor;
+	// start.z *= map->scale_factor;
+	// end.x *= map->scale_factor;
+	// end.y *= map->scale_factor;
+	// end.z *= map->scale_factor;
 
 	to_isometric(&start, &end);
 	center_isometric(&start, &end);
@@ -107,7 +107,7 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 	// while ((int)(start.x - end.x) || (int)(start.y - end.y))
 	while (biggest_delta > 0)
 	{
-		if (start.x > 0 && start.y > 0 && start.x < WINDOW_WIDTH && start.y < WINDOW_HEIGHT)
+		// if (start.x > 0 && start.y > 0 && start.x < WINDOW_WIDTH && start.y < WINDOW_HEIGHT)
 		{
 			put_pixel_to_image(fdf->image, start.x, start.y, 0xffffff);
 			start.x += delta_x;
@@ -119,89 +119,98 @@ void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 
 void draw_mesh(t_fdf *fdf, t_map *map)
 {
-    int x;
-    int y;
+    int row;
+    int column;
 
-    x = 0;
-    while (x < map->width)
+    row = 0;
+    while (row < map->length)
     {
-        y = 0;
-        while (y < map->length)
+        column = 0;
+        while (column < map->width)
         {
-            if (x < (map->width - 1))
-                draw_line(fdf, map, map->mesh[y][x], map->mesh[y][x + 1]);
-            if (y < (map->length - 1))
-                draw_line(fdf, map, map->mesh[y][x], map->mesh[y + 1][x]);
-            y++;
+            if (column < (map->width - 1))
+                // draw_line(fdf, map, map->mesh[row][column], map->mesh[row][column + 1]);
+				draw_line(fdf, map->mesh[row][column], map->mesh[row][column + 1]);
+            if (row < (map->length - 1))
+                // draw_line(fdf, map, map->mesh[row][column], map->mesh[row + 1][column]);
+				draw_line(fdf, map->mesh[row][column], map->mesh[row + 1][column]);
+            column++;
         }
-        x++;
+        row++;
     }
     mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->image->image, 0, 0);
 }
 
-/*
-void	draw_mesh(t_fdf *fdf, t_map *map)
+void	scale_to_fit(t_map	*map)
 {
+	float	scale_x;
+	float	scale_y;
+	float	scale_z;
+
+	scale_x = (WINDOW_WIDTH / 2) / map->width;
+	scale_y = (WINDOW_HEIGHT / 2) / map->length;
+	scale_z = (WINDOW_HEIGHT / 2) / (map->max_z + ft_abs(map->min_z)); //Que pasa si min_z es mayor que 0, hay que restar?
+printf("max_z = %d\n", map->max_z);
+printf("min_z = %d\n", map->min_z);
+printf("scale_x = %f\n", scale_x);
+printf("scale_y = %f\n", scale_y);
+printf("scale_z = %f\n", scale_z);
+	// if (scale_x <= scale_y)
+	// 	map->scale_factor = (int)scale_x;
+	// else if (scale_y < scale_x)
+	// 	map->scale_factor = (int)scale_y;
+	// if (map->scale_factor > scale_z)
+	// 	map->scale_factor = (int)scale_z;
+	map->scale_factor = ft_find_min_value(scale_x, ft_find_min_value(scale_y, scale_z));
+
 	int	x;
 	int	y;
-	
 	y = 0;
 	while (y < map->length)
 	{
 		x = 0;
 		while (x < map->width)
 		{
-			if (x < (map->width - 1))
-				draw_line(fdf, map, map->mesh[x][y], map->mesh[x + 1][y]);
-			if (y < (map->length - 1))
-				draw_line(fdf, map, map->mesh[x][y], map->mesh[x][y + 1]);
+			map->mesh[y][x].x *= map->scale_factor;
+			map->mesh[y][x].y *= map->scale_factor;
+			map->mesh[y][x].z *= map->scale_factor;
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr , fdf->image->image, 0, 0);
+
+	float	adjusted_height = (map->max_z + ft_abs(map->min_z)) * map->scale_factor;
+	float	total_height = adjusted_height * map->length;
+	float	vertical_offset = ((WINDOW_HEIGHT / 2) - total_height) / 2;
+	y = 0;
+	while (y < map->length)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			map->mesh[y][x].x *= (WINDOW_HEIGHT / 2) / 2;
+			map->mesh[y][x].y *= vertical_offset;
+			x++;
+		}
+		y++;
+	}
+printf("scale factor (%d)\n", map->scale_factor);
 }
-*/
+
 void	center_isometric(t_vertex *start, t_vertex *end)
 {
 	t_vertex	new_start;
 	t_vertex	new_end;
 
-
 	new_start.x = start->x + (WINDOW_WIDTH / 2);
 	new_start.y = start->y + (WINDOW_HEIGHT / 2);
 	new_end.x = end->x + (WINDOW_WIDTH / 2);
 	new_end.y = end->y + (WINDOW_HEIGHT / 2);
-printf("CENTER IN SCREEN  : (%d, %d)-->(%d, %d) becomes (%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
+printf("CENTER IN SCREEN  : (%d, %d)-->(%d, %d) becomes /%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
 	start->x = new_start.x;
 	start->y = new_start.y;
 	end->x = new_end.x;
 	end->y = new_end.y;
-}
-
-void	center_to_origin(t_map *map)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < map->length)
-	{
-		x = 0;
-		while (x < map->width)
-		{
-			if ((map->width % 2) > 0)
-				map->mesh[y][x].x -= (map->width / 2);
-			else
-				map->mesh[y][x].x -= (map->width / 2) - 0.5;
-			if ((map->length % 2) > 0)
-				map->mesh[y][x].y -= (map->length / 2);
-			else
-				map->mesh[y][x].y -= (map->length / 2) - 0.5;				
-			x++;
-		}
-		y++;
-	}
 }
 
 void	to_isometric(t_vertex *start, t_vertex *end)
@@ -245,57 +254,27 @@ new_end_y = end->y;
 	// printf("ISOMETRIC         : (%d, %d)-->(%d, %d) becomes (%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
 }
 
-void	scale_to_fit(t_map	*map)
-{
-	float	scale_x;
-	float	scale_y;
-
-	scale_x = (WINDOW_WIDTH / 2) / map->width;
-	scale_y = (WINDOW_HEIGHT / 2) / map->length;
-	// if (map->max_z >= ft_abs(map->min_z))
-	// 	scale_y = (WINDOW_HEIGHT / 2) / (map->length - map->max_z);
-	// else
-	// 	scale_y = (WINDOW_HEIGHT / 2) / (map->length - map->min_z);
-
-	printf("scale_x = %f\n", scale_x);
-	printf("scale_y = %f\n", scale_y);
-	// if ((map->width * map->scale_factor) >= WINDOW_WIDTH)
-	// {
-	// 	map->scale_factor = scale_x;
-	// 	printf("scale_x = %f\n", scale_x);
-	// }
-	// if ((map->length * map->scale_factor) >= WINDOW_HEIGHT)
-	// {
-
-	// 	printf("scale_y = %f\n", scale_y);
-	// }		
-	if (scale_x >= scale_y)
-		map->scale_factor = (int)scale_x;
-	else if (scale_y > scale_x)
-		map->scale_factor = (int)scale_y;
-	printf("scale factor (%d)\n", map->scale_factor);
-}
-
-
-
-/*
-void	draw_mesh(t_vertex **map_array, t_map *map)
+void	center_to_origin(t_map *map)
 {
 	int	x;
 	int	y;
+
 	y = 0;
 	while (y < map->length)
 	{
 		x = 0;
 		while (x < map->width)
 		{
-			if (x < (map->width - 1))
-				draw_line(map_array[x][y].vertex.z, map_array[x + 1][y].vertex.z, map);
-			if (y < (map->length - 1))
-				draw_line(map_array[x][y].vertex.z, map_array[x][y + 1].vertex.z, map);
+			if ((map->width % 2) > 0)
+				map->mesh[y][x].x -= (map->width / 2);
+			else
+				map->mesh[y][x].x -= (map->width / 2) - 0.5;
+			if ((map->length % 2) > 0)
+				map->mesh[y][x].y -= (map->length / 2);
+			else
+				map->mesh[y][x].y -= (map->length / 2) - 0.5;				
 			x++;
 		}
 		y++;
 	}
 }
-*/

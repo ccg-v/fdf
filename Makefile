@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/07/20 23:01:14 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/07/23 23:00:06 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC_FILES		=		main.c \
 						ft_atoi.c \
 						ft_split.c \
 						ft_bzero.c \
+						ft_find_min_value.c \
 						debug_printing.c \
 						$(GNL_DIR)get_next_line.c \
 						$(GNL_DIR)get_next_line_utils.c
