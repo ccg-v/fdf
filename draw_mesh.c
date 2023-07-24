@@ -155,13 +155,8 @@ printf("min_z = %d\n", map->min_z);
 printf("scale_x = %f\n", scale_x);
 printf("scale_y = %f\n", scale_y);
 printf("scale_z = %f\n", scale_z);
-	// if (scale_x <= scale_y)
-	// 	map->scale_factor = (int)scale_x;
-	// else if (scale_y < scale_x)
-	// 	map->scale_factor = (int)scale_y;
-	// if (map->scale_factor > scale_z)
-	// 	map->scale_factor = (int)scale_z;
 	map->scale_factor = ft_find_min_value(scale_x, ft_find_min_value(scale_y, scale_z));
+printf("scale factor (%d)\n", map->scale_factor);
 
 	int	x;
 	int	y;
@@ -179,22 +174,21 @@ printf("scale_z = %f\n", scale_z);
 		y++;
 	}
 
-	float	adjusted_height = (map->max_z + ft_abs(map->min_z)) * map->scale_factor;
-	float	total_height = adjusted_height * map->length;
-	float	vertical_offset = ((WINDOW_HEIGHT / 2) - total_height) / 2;
-	y = 0;
-	while (y < map->length)
-	{
-		x = 0;
-		while (x < map->width)
-		{
-			map->mesh[y][x].x *= (WINDOW_HEIGHT / 2) / 2;
-			map->mesh[y][x].y *= vertical_offset;
-			x++;
-		}
-		y++;
-	}
-printf("scale factor (%d)\n", map->scale_factor);
+	// float	adjusted_height = (map->max_z + ft_abs(map->min_z)) * map->scale_factor;
+	// float	total_height = adjusted_height * map->length;
+	// float	vertical_offset = ((WINDOW_HEIGHT / 2) - total_height) / 2;
+	// y = 0;
+	// while (y < map->length)
+	// {
+	// 	x = 0;
+	// 	while (x < map->width)
+	// 	{
+	// 		map->mesh[y][x].x *= (WINDOW_HEIGHT / 2) / 2;
+	// 		map->mesh[y][x].y *= vertical_offset;
+	// 		x++;
+	// 	}
+	// 	y++;
+	// }
 }
 
 void	center_isometric(t_vertex *start, t_vertex *end)
