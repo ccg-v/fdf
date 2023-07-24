@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/23 12:58:00 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:22:51 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ t_vertex   **read_file(char *file_name, t_map *map)
     mesh = fill_mesh(file_name, map);
 	// center_to_origin(map);
     print_altitudes(map);
+    printf("\n------- array of coordenates -------\n"); 
     print_coordenates(map);
     return (mesh);
 }

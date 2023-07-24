@@ -92,8 +92,8 @@ void	draw_line(t_fdf *fdf, t_vertex start, t_vertex end)
 	// end.y *= map->scale_factor;
 	// end.z *= map->scale_factor;
 
-	to_isometric(&start, &end);
-	center_isometric(&start, &end);
+	// to_isometric(&start, &end);
+	// center_in_screen(&start, &end);
 
 	delta_x = end.x - start.x;
 	delta_y = end.y - start.y;
@@ -141,22 +141,51 @@ void draw_mesh(t_fdf *fdf, t_map *map)
     mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->image->image, 0, 0);
 }
 
+void	center_to_origin(t_map *map)
+{
+	int	x;
+	int	y;
+
+	printf("\n--------------- CENTER TO ORIGIN ----------------\n");
+	y = 0;
+	while (y < map->length)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			if ((map->width % 2) > 0)
+				map->mesh[y][x].x -= (map->width / 2);
+			else
+				map->mesh[y][x].x -= (map->width / 2) - 0.5;
+			if ((map->length % 2) > 0)
+				map->mesh[y][x].y -= (map->length / 2);
+			else
+				map->mesh[y][x].y -= (map->length / 2) - 0.5;				
+			x++;
+		}
+		y++;
+	}
+	print_coordenates(map);
+}
+
 void	scale_to_fit(t_map	*map)
 {
 	float	scale_x;
 	float	scale_y;
-	float	scale_z;
+	// float	scale_z;
 
 	scale_x = (WINDOW_WIDTH / 2) / map->width;
 	scale_y = (WINDOW_HEIGHT / 2) / map->length;
-	scale_z = (WINDOW_HEIGHT / 2) / (map->max_z + ft_abs(map->min_z)); //Que pasa si min_z es mayor que 0, hay que restar?
+	// scale_z = (WINDOW_HEIGHT / 2) / (map->max_z + ft_abs(map->min_z)); //Que pasa si min_z es mayor que 0, hay que restar?
+printf("\n----------------- SCALE TO FIT -----------------\n");
 printf("max_z = %d\n", map->max_z);
 printf("min_z = %d\n", map->min_z);
 printf("scale_x = %f\n", scale_x);
 printf("scale_y = %f\n", scale_y);
-printf("scale_z = %f\n", scale_z);
-	map->scale_factor = ft_find_min_value(scale_x, ft_find_min_value(scale_y, scale_z));
-printf("scale factor (%d)\n", map->scale_factor);
+// printf("scale_z = %f\n", scale_z);
+	// map->scale_factor = ft_find_min_value(scale_x, ft_find_min_value(scale_y, scale_z));
+	map->scale_factor = ft_find_min_value(scale_x, scale_y);
+printf("--> scale factor to apply = %d\n", map->scale_factor);
 
 	int	x;
 	int	y;
@@ -189,9 +218,71 @@ printf("scale factor (%d)\n", map->scale_factor);
 	// 	}
 	// 	y++;
 	// }
+
+	print_coordenates(map);
 }
 
-void	center_isometric(t_vertex *start, t_vertex *end)
+void	transform_to_isometric(t_map *map)
+{
+	int	x;
+	int	y;
+	int	iso_x;
+	int	iso_y;
+
+	printf("\n------------ TRANSFORM TO ISOMETRIC -------------\n");
+	y = 0;
+	while (y < map->length)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			iso_x = (map->mesh[y][x].x - map->mesh[y][x].y) * cos(deg_to_rad(30));
+			iso_y = (map->mesh[y][x].x + map->mesh[y][x].y) * sin(deg_to_rad(30)) - map->mesh[y][x].z;
+			if (iso_y < map->uppermost_point)
+				map->uppermost_point = iso_y;
+			if (iso_y > map->lowest_point)
+				map->lowest_point = iso_y;
+	printf("vertex (%d, %d, %d) \tbecomes \tiso_vertex (%d, %d)\n", (int)map->mesh[y][x].x, (int)map->mesh[y][x].y, (int)map->mesh[y][x].z, iso_x, iso_y);
+			map->mesh[y][x].x = iso_x;
+			map->mesh[y][x].y = iso_y;
+			x++;
+		}
+		y++;
+	}
+	printf("uppermost_point = %d\n", map->uppermost_point);
+	printf("lowest_point = %d\n", map->lowest_point);
+	print_coordenates(map);
+}
+
+void	center_in_screen(t_map *map)
+{
+	int	x;
+	int y;
+	int centered_x;
+	int centered_y;
+
+	printf("\n--------------- CENTER IN SCREEN ----------------\n");
+	y = 0;
+	while (y < map->length)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			centered_x = map->mesh[y][x].x + (WINDOW_WIDTH / 2);
+			centered_y = map->mesh[y][x].y + (WINDOW_HEIGHT / 2);
+			// centered_y = (WINDOW_HEIGHT - (map->lowest_point - (ft_abs(map->uppermost_point))) / 2);
+	printf("vertex (%d, %d, %d) \tbecomes \tcentered_vertex (%d, %d, %d)\n", (int)map->mesh[y][x].x, (int)map->mesh[y][x].y, (int)map->mesh[y][x].z, centered_x, centered_y, (int)map->mesh[y][x].z);
+			map->mesh[y][x].x = centered_x;
+			map->mesh[y][x].y = centered_y;
+			x++;			
+		}
+		y++;
+	}
+	print_coordenates(map);
+}
+
+/*
+void	center_in_screen(t_vertex *start, t_vertex *end)
 {
 	t_vertex	new_start;
 	t_vertex	new_end;
@@ -200,13 +291,15 @@ void	center_isometric(t_vertex *start, t_vertex *end)
 	new_start.y = start->y + (WINDOW_HEIGHT / 2);
 	new_end.x = end->x + (WINDOW_WIDTH / 2);
 	new_end.y = end->y + (WINDOW_HEIGHT / 2);
-printf("CENTER IN SCREEN  : (%d, %d)-->(%d, %d) becomes /%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
+printf("--------------- CENTER IN SCREEN ----------------\n");
+printf("(%d, %d)-->(%d, %d) becomes (%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
 	start->x = new_start.x;
 	start->y = new_start.y;
 	end->x = new_end.x;
 	end->y = new_end.y;
 }
-
+*/
+/*
 void	to_isometric(t_vertex *start, t_vertex *end)
 {
 	t_vertex	new_start;
@@ -247,28 +340,5 @@ new_end_x = end->x;
 new_end_y = end->y;
 	// printf("ISOMETRIC         : (%d, %d)-->(%d, %d) becomes (%d, %d)-->(%d, %d)\n", (int)start->x, (int)start->y, (int)end->x, (int)end->y, (int)new_start.x, (int)new_start.y, (int)new_end.x, (int)new_end.y);
 }
+*/
 
-void	center_to_origin(t_map *map)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < map->length)
-	{
-		x = 0;
-		while (x < map->width)
-		{
-			if ((map->width % 2) > 0)
-				map->mesh[y][x].x -= (map->width / 2);
-			else
-				map->mesh[y][x].x -= (map->width / 2) - 0.5;
-			if ((map->length % 2) > 0)
-				map->mesh[y][x].y -= (map->length / 2);
-			else
-				map->mesh[y][x].y -= (map->length / 2) - 0.5;				
-			x++;
-		}
-		y++;
-	}
-}

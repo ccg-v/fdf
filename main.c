@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/21 00:41:59 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/25 00:35:31 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	initialize_map(t_map *map)
 	map->scale_factor = 25;
 	map->min_z = 0;
 	map->max_z = 0;
+	map->uppermost_point = 0;
+	map->lowest_point = 0;
 	// return (map);
 }
 
@@ -69,16 +71,17 @@ int	main(int argc, char **argv)
 		initialize_map(&map);
 		mesh = read_file(argv[1], &map);
 		center_to_origin(&map);
-	printf("--------------- CENTER TO ORIGIN ----------------\n");
-	print_coordenates(&map);
+	// printf("--------------- CENTER TO ORIGIN ----------------\n");
+	// print_coordenates(&map);
 		// clear_image(&(*fdf.image));
 		// clear_image(fdf.image);
 		// center_to_origin(&map);
 		scale_to_fit(&map);
-
+		transform_to_isometric(&map);
+		center_in_screen(&map);
 		draw_mesh(&fdf, &map);
-	printf("--------------- CENTER ISOMETRIC ----------------\n");
-	print_coordenates(&map);
+	// printf("--------------- CENTER ISOMETRIC ----------------\n");
+	// print_coordenates(&map);
 		// mlx_loop(&(*fdf.mlx_ptr));
 		mlx_loop(fdf.mlx_ptr);
 		return (0);

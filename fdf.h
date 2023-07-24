@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/23 23:02:23 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/25 00:34:38 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_map
     int         scale_factor;
     int         min_z;
     int         max_z;
+    int         uppermost_point;
+    int         lowest_point;
     // int         color;
 }               t_map;
 
@@ -73,9 +75,10 @@ void	    draw_mesh(t_fdf *fdf, t_map *map);
 // void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
 void	    draw_line(t_fdf *fdf, t_vertex start, t_vertex end);
 void	    to_isometric(t_vertex *start, t_vertex *end);
+void        transform_to_isometric(t_map *map);
 void	    scale_to_fit(t_map *map);
 void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
-void	    center_isometric(t_vertex *start, t_vertex *end);
+void	    center_in_screen(t_map *map);
 void        center_to_origin(t_map *map);
 void        on_error_exit(int exit_code);
 
