@@ -6,14 +6,12 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/25 00:35:31 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:51:15 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "minilibx_macos/mlx.h"
-//#include <stdlib.h>
-//#include <math.h>
 
 void	initialize_fdf(t_fdf *fdf, t_img *image)
 {
@@ -28,22 +26,8 @@ void	initialize_fdf(t_fdf *fdf, t_img *image)
 	fdf->image = image;
 }
 
-/*
-void	initialize_image(t_img *img, void *mlx_ptr)
-{
-	img->image = mlx_new_image(mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-	img->buffer = mlx_get_data_addr(img->image, &img->bits_per_pixel, \
-			&img->line_bytes, &img->endian);
-	img->image_bytes = WINDOW_WIDTH * WINDOW_HEIGHT * 4;
-	// img->line = NULL;
-}
-*/
-
 void	initialize_map(t_map *map)
 {
-	// map = malloc(sizeof(t_map));
-	// if (!map)
-	// 	return (NULL);
 	map->mesh = NULL;
 	map->width = 0;
 	map->length = 0;
@@ -52,7 +36,6 @@ void	initialize_map(t_map *map)
 	map->max_z = 0;
 	map->uppermost_point = 0;
 	map->lowest_point = 0;
-	// return (map);
 }
 
 int	main(int argc, char **argv)

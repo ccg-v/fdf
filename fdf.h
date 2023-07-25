@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/25 00:34:38 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:57:15 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ float       ft_find_min_value(float x, float y);
 t_vertex    **read_file(char *file_name, t_map *map);
 void	    clear_image(t_img *image);
 // void	    put_pixel_to_image(t_img *image, int x, int y, int color);
-void	    put_pixel_to_image(t_img *image, float x, float y, int color);
+void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    draw_mesh(t_fdf *fdf, t_map *map);
 // void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
 void	    draw_line(t_fdf *fdf, t_vertex start, t_vertex end);

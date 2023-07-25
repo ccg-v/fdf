@@ -47,16 +47,18 @@ void	clear_image(t_img *image)
 	}
 	y++;
 }
-/*
+
 void	put_pixel_to_image(t_img *image, int x, int y, int color)
 {
     char    *pixel;
-
-    pixel = image->buffer + (y * image->line_bytes + x * (image->bits_per_pixel / 8));
-    *(int *)pixel = color;
+	if (x > 0 && y > 0 && x < WINDOW_WIDTH && y < WINDOW_HEIGHT)
+	{
+    	pixel = image->buffer + (y * image->line_bytes + x * (image->bits_per_pixel / 8));
+    	*(int *)pixel = color;
+	}
 }
-*/
 
+/*
 void	put_pixel_to_image(t_img *image, float x, float y, int color)
 {
 	int		pixel;
@@ -77,6 +79,7 @@ void	put_pixel_to_image(t_img *image, float x, float y, int color)
 		image->buffer[pixel + 3] = (color >> 24);
 	}
 }
+*/
 
 // void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 void	draw_line(t_fdf *fdf, t_vertex start, t_vertex end)
@@ -270,7 +273,7 @@ void	center_in_screen(t_map *map)
 		{
 			centered_x = map->mesh[y][x].x + (WINDOW_WIDTH / 2);
 			centered_y = map->mesh[y][x].y + (WINDOW_HEIGHT / 2);
-			// centered_y = (WINDOW_HEIGHT - (map->lowest_point - (ft_abs(map->uppermost_point))) / 2);
+			// centered_y = map->mesh[y][x].y + (WINDOW_HEIGHT - (map->lowest_point + (ft_abs(map->uppermost_point))) / 2);
 	printf("vertex (%d, %d, %d) \tbecomes \tcentered_vertex (%d, %d, %d)\n", (int)map->mesh[y][x].x, (int)map->mesh[y][x].y, (int)map->mesh[y][x].z, centered_x, centered_y, (int)map->mesh[y][x].z);
 			map->mesh[y][x].x = centered_x;
 			map->mesh[y][x].y = centered_y;
