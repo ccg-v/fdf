@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   on_error_exit.c                                    :+:      :+:    :+:   */
+/*   key_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 20:26:05 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/25 19:05:50 by ccarrace         ###   ########.fr       */
+/*   Created: 2023/07/25 21:08:38 by ccarrace          #+#    #+#             */
+/*   Updated: 2023/07/25 21:10:09 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void on_error_exit(int exit_code)
+int key_handle(t_fdf *fdf, int keycode)
 {
-	if (exit_code == 0)
-    	write(1, "Program closed by user\n", 23);
-  	if (exit_code == 1)
-    	write(1, "Error: no mlx_ptr!\n", 19);
-  	if (exit_code == 2)
-    	write(1, "Error: no win_ptr!\n", 19);
-	if (exit_code == 3)
-		write(1, "Error allocating t_map\n", 23);
-	if (exit_code == 4)
-		write(1, "Error allocating t_line\n", 24);
-  	exit(exit_code);
+    if (keycode == KEY_ESC)
+        close_all(0, fdf);
 }

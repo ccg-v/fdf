@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/25 16:51:15 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/25 21:29:28 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ void	initialize_map(t_map *map)
 	map->lowest_point = 0;
 }
 
+int	close_all(t_fdf *fdf)
+{
+	printf("fdf->exit_code = %d\n", fdf->exit_code);
+	mlx_destroy_image(fdf->mlx_ptr, fdf->image->image);
+	mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
+	on_error_exit(fdf->exit_code);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_fdf		fdf;
@@ -66,6 +75,8 @@ int	main(int argc, char **argv)
 	// printf("--------------- CENTER ISOMETRIC ----------------\n");
 	// print_coordenates(&map);
 		// mlx_loop(&(*fdf.mlx_ptr));
+		fdf.exit_code = 0;
+		mlx_hook(fdf.win_ptr, 17, 0, close_all, &fdf);
 		mlx_loop(fdf.mlx_ptr);
 		return (0);
 	}

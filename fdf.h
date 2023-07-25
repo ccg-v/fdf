@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/25 16:57:15 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/25 21:24:33 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_fdf
     int         win_x;
     int         win_y;
     t_img       *image;
+    int         exit_code;
 }               t_fdf;
 
 typedef struct s_vertex
