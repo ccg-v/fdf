@@ -29,23 +29,23 @@ float	deg_to_rad(float deg_angle)
 	return (rad_angle);
 }
 
-void	clear_image(t_img *image)
+void	clear_image(t_img *image, int image_bytes)
 {
 	int	x;
 	int	y;
 
-	ft_bzero(image->buffer, image->image_bytes);
+	ft_bzero(image->buffer, image_bytes);
 	y = 0;
 	while (y < WINDOW_HEIGHT)
 	{
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			put_pixel_to_image(image, x, y, 0x008000);
+			put_pixel_to_image(image, x, y, 0x000000);
 			x++;
 		}
+		y++;
 	}
-	y++;
 }
 
 void	put_pixel_to_image(t_img *image, int x, int y, int color)
@@ -58,45 +58,11 @@ void	put_pixel_to_image(t_img *image, int x, int y, int color)
 	}
 }
 
-/*
-void	put_pixel_to_image(t_img *image, float x, float y, int color)
-{
-	int		pixel;
-
-	pixel = ((int)y * image->line_bytes) + ((int)x * 4);
-	if (image->endian == 1)
-	{
-		image->buffer[pixel + 0] = (color >> 24);
-		image->buffer[pixel + 1] = (color >> 16) & 0xff;
-		image->buffer[pixel + 2] = (color >> 8) & 0xff;
-		image->buffer[pixel + 3] = (color) & 0xff;
-	}
-	else if (image->endian == 0)
-	{
-		image->buffer[pixel + 0] = (color) & 0xff;
-		image->buffer[pixel + 1] = (color >> 8) & 0xff;
-		image->buffer[pixel + 2] = (color >> 16) & 0xff;
-		image->buffer[pixel + 3] = (color >> 24);
-	}
-}
-*/
-
-// void	draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end)
 void	draw_line(t_fdf *fdf, t_vertex start, t_vertex end)
 {
 	float	delta_x;
 	float	delta_y;
 	int		biggest_delta;
-
-	// start.x *= map->scale_factor;
-	// start.y *= map->scale_factor;
-	// start.z *= map->scale_factor;
-	// end.x *= map->scale_factor;
-	// end.y *= map->scale_factor;
-	// end.z *= map->scale_factor;
-
-	// to_isometric(&start, &end);
-	// center_in_screen(&start, &end);
 
 	delta_x = end.x - start.x;
 	delta_y = end.y - start.y;
@@ -107,16 +73,12 @@ void	draw_line(t_fdf *fdf, t_vertex start, t_vertex end)
 	delta_x /= biggest_delta;
 	delta_y /= biggest_delta;
 
-	// while ((int)(start.x - end.x) || (int)(start.y - end.y))
 	while (biggest_delta > 0)
 	{
-		// if (start.x > 0 && start.y > 0 && start.x < WINDOW_WIDTH && start.y < WINDOW_HEIGHT)
-		{
 			put_pixel_to_image(fdf->image, start.x, start.y, 0xffffff);
 			start.x += delta_x;
 			start.y += delta_y;
 			biggest_delta--;
-		}
 	}
 }
 
@@ -124,7 +86,10 @@ void draw_mesh(t_fdf *fdf, t_map *map)
 {
     int row;
     int column;
+	int	image_bytes;
 
+	image_bytes = WINDOW_WIDTH * WINDOW_HEIGHT * 4;
+	clear_image(fdf->image, image_bytes);
     row = 0;
     while (row < map->length)
     {

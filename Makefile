@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/07/26 13:34:09 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/07/26 21:44:20 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC_FILES		=		main.c \
 						read_file.c \
 						draw_mesh.c \
 						key_handle.c \
+						transformations.c \
 						on_error_exit.c \
 						ft_atoi.c \
 						ft_split.c \

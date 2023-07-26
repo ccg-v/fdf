@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/26 13:33:19 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/27 00:32:44 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	initialize_map(t_map *map)
 
 int	close_all(t_fdf *fdf)
 {
-	printf("fdf->exit_code = %d\n", fdf->exit_code);
 	mlx_destroy_image(fdf->mlx_ptr, fdf->image->image);
 	mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
 	on_error_exit(fdf->exit_code);
@@ -53,6 +52,7 @@ int	main(int argc, char **argv)
 	t_map		map;
 	t_vertex	**mesh;
 	t_img		image;
+	t_container	container;
 
 	(void)argv;
 	if (argc != 2)
@@ -75,10 +75,12 @@ int	main(int argc, char **argv)
 		draw_mesh(&fdf, &map);
 	// printf("--------------- CENTER ISOMETRIC ----------------\n");
 	// print_coordenates(&map);
-		// mlx_loop(&(*fdf.mlx_ptr));
-		fdf.exit_code = 0;
-		mlx_hook(fdf.win_ptr, 17, 0, close_all, &fdf);
-		mlx_key_hook(fdf.win_ptr, &key_handle, &fdf);
+		// fdf.exit_code = 0;
+		container.fdf = fdf;
+		container.map = map;
+		mlx_hook(fdf.win_ptr, 17, 0, close_all, &container);
+		// mlx_hook(fdf.win_ptr, 2, 0, key_handle, &container);
+		mlx_key_hook(fdf.win_ptr, &key_handle, &container);
 		mlx_loop(fdf.mlx_ptr);
 		return (0);
 	}

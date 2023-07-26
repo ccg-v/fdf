@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/26 13:35:20 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/27 00:54:58 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@
 # define WINDOW_HEIGHT  720
 
 # define KEY_ESC        53
+# define KEY_LEFT       123
+# define KEY_RIGHT      124
+# define KEY_DOWN       125
+# define KEY_UP         126
+# define KEY_DEL        51
 
 typedef struct s_img
 {
@@ -33,7 +38,7 @@ typedef struct s_img
 	int		    endian;
     int         image_bytes;
     // t_line      *line;
-}               t_img;
+}   t_img;
 
 typedef struct s_fdf
 {
@@ -43,14 +48,14 @@ typedef struct s_fdf
     int         win_y;
     t_img       *image;
     int         exit_code;
-}               t_fdf;
+}   t_fdf;
 
 typedef struct s_vertex
 {
     float       x;
     float       y;
     float       z;
-}               t_vertex;
+}   t_vertex;
 
 typedef struct s_map
 {
@@ -63,7 +68,13 @@ typedef struct s_map
     int         uppermost_point;
     int         lowest_point;
     // int         color;
-}               t_map;
+}   t_map;
+
+typedef struct s_container
+{
+    t_fdf       fdf;
+    t_map       map;
+}   t_container;           
 
 char        **ft_split(char const *s, char c);
 int	        ft_atoi(const char *str);
@@ -71,7 +82,7 @@ void	    ft_bzero(void *s, size_t n);
 float       ft_find_min_value(float x, float y);
 // int         check_input (int argc, char *file_name);
 t_vertex    **read_file(char *file_name, t_map *map);
-void	    clear_image(t_img *image);
+void	    clear_image(t_img *image, int image_bytes);
 // void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    draw_mesh(t_fdf *fdf, t_map *map);
@@ -84,8 +95,10 @@ void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
 void	    center_in_screen(t_map *map);
 void        center_to_origin(t_map *map);
 void        on_error_exit(int exit_code);
-int         key_handle(t_fdf *fdf, int keycode);
-int	close_all(t_fdf *fdf);
+// int      key_handle(t_fdf *fdf, t_map *map, int keycode);
+int key_handle(int keycode, t_container *container);
+int	        close_all(t_fdf *fdf);
+void        translate(t_map *map, int x_displacement, int y_displacement);
 
 void        print_altitudes(t_map *map);
 void        print_coordenates(t_map *map);
