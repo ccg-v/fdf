@@ -150,6 +150,8 @@ void	center_to_origin(t_map *map)
 	int	y;
 
 	printf("\n--------------- CENTER TO ORIGIN ----------------\n");
+	printf("map->width = %d\n", map->width);
+	printf("map->scale_factor = %d\n", map->scale_factor);
 	y = 0;
 	while (y < map->length)
 	{
@@ -157,13 +159,13 @@ void	center_to_origin(t_map *map)
 		while (x < map->width)
 		{
 			if ((map->width % 2) > 0)
-				map->mesh[y][x].x -= (map->width / 2);
+				map->mesh[y][x].x -= (map->width / 2); 
 			else
 				map->mesh[y][x].x -= (map->width / 2) - 0.5;
 			if ((map->length % 2) > 0)
 				map->mesh[y][x].y -= (map->length / 2);
 			else
-				map->mesh[y][x].y -= (map->length / 2) - 0.5;				
+				map->mesh[y][x].y -= (map->length / 2) - 0.5;					
 			x++;
 		}
 		y++;

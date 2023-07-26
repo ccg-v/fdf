@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/25 21:29:28 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:33:19 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	initialize_map(t_map *map)
 	map->mesh = NULL;
 	map->width = 0;
 	map->length = 0;
-	map->scale_factor = 25;
+	map->scale_factor = 1;
 	map->min_z = 0;
 	map->max_z = 0;
 	map->uppermost_point = 0;
@@ -70,6 +70,7 @@ int	main(int argc, char **argv)
 		// center_to_origin(&map);
 		scale_to_fit(&map);
 		transform_to_isometric(&map);
+				center_to_origin(&map);
 		center_in_screen(&map);
 		draw_mesh(&fdf, &map);
 	// printf("--------------- CENTER ISOMETRIC ----------------\n");
@@ -77,6 +78,7 @@ int	main(int argc, char **argv)
 		// mlx_loop(&(*fdf.mlx_ptr));
 		fdf.exit_code = 0;
 		mlx_hook(fdf.win_ptr, 17, 0, close_all, &fdf);
+		mlx_key_hook(fdf.win_ptr, &key_handle, &fdf);
 		mlx_loop(fdf.mlx_ptr);
 		return (0);
 	}

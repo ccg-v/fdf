@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/25 21:24:33 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:35:20 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 # define WINDOW_WIDTH   1280
 # define WINDOW_HEIGHT  720
+
+# define KEY_ESC        53
 
 typedef struct s_img
 {
@@ -82,6 +84,8 @@ void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
 void	    center_in_screen(t_map *map);
 void        center_to_origin(t_map *map);
 void        on_error_exit(int exit_code);
+int         key_handle(t_fdf *fdf, int keycode);
+int	close_all(t_fdf *fdf);
 
 void        print_altitudes(t_map *map);
 void        print_coordenates(t_map *map);
