@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/27 14:16:48 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:12:08 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	count_columns(const char *str, char c)
 		while (str[i] && str[i] != c)
 			i++;
 	}
+printf("num_columns = %d\n", num_columns);
 	return (num_columns);
 }
 
@@ -130,8 +131,8 @@ t_vertex   **read_file(char *file_name, t_map *map)
     mesh = mesh_memory_allocate(map);
     mesh = fill_mesh(file_name, map);
 	// center_to_origin(map);
-    print_altitudes(map);
-    printf("\n------- array of coordenates -------\n"); 
-    print_coordenates(map);
+    // print_altitudes(map);
+    // printf("\n------- array of coordenates -------\n"); 
+    // print_coordenates(map);
     return (mesh);
 }

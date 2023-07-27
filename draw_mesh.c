@@ -90,6 +90,7 @@ void draw_mesh(t_fdf *fdf)
 
 	image_bytes = WINDOW_WIDTH * WINDOW_HEIGHT * 4;
 	clear_image(fdf->image, image_bytes);
+
     row = 0;
     while (row < fdf->map->length)
     {
@@ -115,8 +116,8 @@ void	center_to_origin(t_map *map)
 	int	y;
 
 	printf("\n--------------- CENTER TO ORIGIN ----------------\n");
-	printf("map->width = %d\n", map->width);
-	printf("map->scale_factor = %d\n", map->scale_factor);
+	// printf("map->width = %d\n", map->width);
+	// printf("map->scale_factor = %d\n", map->scale_factor);
 	y = 0;
 	while (y < map->length)
 	{
@@ -135,7 +136,7 @@ void	center_to_origin(t_map *map)
 		}
 		y++;
 	}
-	print_coordenates(map);
+	// print_coordenates(map);
 }
 
 void	scale_to_fit(t_map	*map)
@@ -148,14 +149,14 @@ void	scale_to_fit(t_map	*map)
 	scale_y = (WINDOW_HEIGHT / 2) / map->length;
 	// scale_z = (WINDOW_HEIGHT / 2) / (map->max_z + ft_abs(map->min_z)); //Que pasa si min_z es mayor que 0, hay que restar?
 printf("\n----------------- SCALE TO FIT -----------------\n");
-printf("max_z = %d\n", map->max_z);
-printf("min_z = %d\n", map->min_z);
-printf("scale_x = %f\n", scale_x);
-printf("scale_y = %f\n", scale_y);
+// printf("max_z = %d\n", map->max_z);
+// printf("min_z = %d\n", map->min_z);
+// printf("scale_x = %f\n", scale_x);
+// printf("scale_y = %f\n", scale_y);
 // printf("scale_z = %f\n", scale_z);
 	// map->scale_factor = ft_find_min_value(scale_x, ft_find_min_value(scale_y, scale_z));
 	map->scale_factor = ft_find_min_value(scale_x, scale_y);
-printf("--> scale factor to apply = %d\n", map->scale_factor);
+// printf("--> scale factor to apply = %d\n", map->scale_factor);
 
 	int	x;
 	int	y;
@@ -189,15 +190,15 @@ printf("--> scale factor to apply = %d\n", map->scale_factor);
 	// 	y++;
 	// }
 
-	print_coordenates(map);
+	// print_coordenates(map);
 }
 
 void	transform_to_isometric(t_map *map)
 {
 	int	x;
 	int	y;
-	int	iso_x;
-	int	iso_y;
+	float	iso_x;
+	float	iso_y;
 
 	printf("\n------------ TRANSFORM TO ISOMETRIC -------------\n");
 	y = 0;
@@ -212,24 +213,24 @@ void	transform_to_isometric(t_map *map)
 				map->uppermost_point = iso_y;
 			if (iso_y > map->lowest_point)
 				map->lowest_point = iso_y;
-	printf("vertex (%d, %d, %d) \tbecomes \tiso_vertex (%d, %d)\n", (int)map->mesh[y][x].x, (int)map->mesh[y][x].y, (int)map->mesh[y][x].z, iso_x, iso_y);
+	// printf("vertex (%d, %d, %d) \tbecomes \tiso_vertex (%d, %d)\n", (int)map->mesh[y][x].x, (int)map->mesh[y][x].y, (int)map->mesh[y][x].z, iso_x, iso_y);
 			map->mesh[y][x].x = iso_x;
 			map->mesh[y][x].y = iso_y;
 			x++;
 		}
 		y++;
 	}
-	printf("uppermost_point = %d\n", map->uppermost_point);
-	printf("lowest_point = %d\n", map->lowest_point);
-	print_coordenates(map);
+	// printf("uppermost_point = %d\n", map->uppermost_point);
+	// printf("lowest_point = %d\n", map->lowest_point);
+	// print_coordenates(map);
 }
 
 void	center_in_screen(t_map *map)
 {
 	int	x;
 	int y;
-	int centered_x;
-	int centered_y;
+	float centered_x;
+	float centered_y;
 
 	printf("\n--------------- CENTER IN SCREEN ----------------\n");
 	y = 0;
@@ -241,14 +242,14 @@ void	center_in_screen(t_map *map)
 			centered_x = map->mesh[y][x].x + (WINDOW_WIDTH / 2);
 			centered_y = map->mesh[y][x].y + (WINDOW_HEIGHT / 2);
 			// centered_y = map->mesh[y][x].y + (WINDOW_HEIGHT - (map->lowest_point + (ft_abs(map->uppermost_point))) / 2);
-	printf("vertex (%d, %d, %d) \tbecomes \tcentered_vertex (%d, %d, %d)\n", (int)map->mesh[y][x].x, (int)map->mesh[y][x].y, (int)map->mesh[y][x].z, centered_x, centered_y, (int)map->mesh[y][x].z);
+	// printf("vertex (%d, %d, %d) \tbecomes \tcentered_vertex (%d, %d, %d)\n", (int)map->mesh[y][x].x, (int)map->mesh[y][x].y, (int)map->mesh[y][x].z, centered_x, centered_y, (int)map->mesh[y][x].z);
 			map->mesh[y][x].x = centered_x;
 			map->mesh[y][x].y = centered_y;
 			x++;			
 		}
 		y++;
 	}
-	print_coordenates(map);
+	// print_coordenates(map);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:38 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/27 14:29:19 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:53:36 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,57 @@
 
 int key_handle(int keycode, t_fdf *fdf)
 {
+    int scale_factor;
+    scale_factor = ft_find_min_value(fdf->map->width, fdf->map->length);
+    printf("ZOOM_FACTOR = %d\n", scale_factor);
+    // move
     if (keycode == KEY_ESC)
         close_all(fdf);
     else if (keycode == KEY_LEFT)
+    {
         translate(fdf->map, -10, 0);
+        draw_mesh(fdf);
+    }
     else if (keycode == KEY_RIGHT)
+    {
         translate(fdf->map, 10, 0);
+        draw_mesh(fdf);
+    }
     else if (keycode == KEY_DOWN)
+    {
         translate(fdf->map, 0 , 10);
+        draw_mesh(fdf);
+    }
     else if (keycode == KEY_UP)
+    {
         translate(fdf->map, 0 , -10);
+        draw_mesh(fdf);
+    }
 
+    // scale
+    else if (keycode == KEY_PLUS)
+    {
+        scale(fdf->map, scale_factor);
+        // scale(fdf->map, fdf->map->scale_factor++);
+        render(fdf);
+    }
+    else if (keycode == KEY_MINUS)
+    {
+        scale(fdf->map, -(scale_factor));
+        // scale(fdf->map, fdf->map->scale_factor--);
+        render(fdf);       
+    }
+
+    // change projection
     else if (keycode == KEY_T)
-    {        
-        printf("changed to Top view\n");
+    {
         fdf->map->projection = TOP;
-        printf("fdf->map->projection = %d\n", fdf->map->projection);
+        render(fdf);
     }
     else if (keycode == KEY_I)
     {
-        printf("changed to Isometric projection\n");
         fdf->map->projection = ISOMETRIC;
-        printf("fdf->map->projection = %d\n", fdf->map->projection);
+        render(fdf);
     }
-        
-    draw_mesh(fdf);
     return (0);
 }

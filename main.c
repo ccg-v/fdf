@@ -6,15 +6,16 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/27 17:29:12 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:07:21 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "minilibx_macos/mlx.h"
 
-void	initialize_map(t_map *map)
+void	initialize_map(t_map *map, char *map_file)
 {
+	map->map_file = map_file;
 	map->mesh = NULL;
 	map->width = 0;
 	map->length = 0;
@@ -23,7 +24,7 @@ void	initialize_map(t_map *map)
 	map->max_z = 0;
 	map->uppermost_point = 0;
 	map->lowest_point = 0;
-	map->projection = ISOMETRIC;
+	map->projection = TOP;
 }
 
 void	initialize_fdf(t_fdf *fdf, t_map *map, t_img *image)
@@ -48,11 +49,25 @@ int	close_all(t_fdf *fdf)
 	return (0);
 }
 
+void	render(t_fdf *fdf)
+{
+	t_vertex	**mesh;
+
+	mesh = read_file(fdf->map->map_file, fdf->map);
+	center_to_origin(fdf->map);
+	// scale_to_fit(fdf->map);
+	if (fdf->map->projection == ISOMETRIC)
+		transform_to_isometric(fdf->map);
+	scale_to_fit(fdf->map);
+	center_in_screen(fdf->map);
+	draw_mesh(fdf);
+}
+
 int	main(int argc, char **argv)
 {
 	t_fdf		fdf;
 	t_map		map;
-	t_vertex	**mesh;
+	// t_vertex	**mesh;
 	t_img		image;
 
 	(void)argv;
@@ -60,16 +75,16 @@ int	main(int argc, char **argv)
 		return (-1);
 	else
 	{
-		initialize_map(&map);
+		initialize_map(&map, argv[1]);
 		initialize_fdf(&fdf, &map, &image);
-		mesh = read_file(argv[1], fdf.map);
-		center_to_origin(fdf.map);
-		scale_to_fit(fdf.map);
-		if (map.projection == ISOMETRIC)
-			transform_to_isometric(fdf.map);
-				// center_to_origin(&map);
-		center_in_screen(fdf.map);
-		draw_mesh(&fdf);
+		// mesh = read_file(argv[1], fdf.map);
+		// center_to_origin(fdf.map);
+		// scale_to_fit(fdf.map);
+		// if (fdf.map->projection == ISOMETRIC)
+		// 	transform_to_isometric(fdf.map);
+		// center_in_screen(fdf.map);
+		// draw_mesh(&fdf);
+		render(&fdf);
 	// printf("--------------- CENTER ISOMETRIC ----------------\n");
 	// print_coordenates(&map);
 		// fdf.exit_code = 0;

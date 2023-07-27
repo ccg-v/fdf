@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/27 14:22:02 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:32:35 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <unistd.h>    // write
 # include <limits.h>    // INT_MIN, INT_MAX
 
-# define WINDOW_WIDTH   1280
-# define WINDOW_HEIGHT  720
+# define WINDOW_WIDTH   2560
+# define WINDOW_HEIGHT  1440
 
 # define KEY_ESC        53
 # define KEY_LEFT       123
@@ -29,6 +29,8 @@
 # define KEY_UP         126
 # define KEY_T          17
 # define KEY_I          34
+# define KEY_PLUS       24
+# define KEY_MINUS      27
 
 typedef struct s_vertex
 {
@@ -39,6 +41,7 @@ typedef struct s_vertex
 
 typedef struct s_map
 {
+    char        *map_file;
     t_vertex    **mesh;
     int         width;
     int         length;
@@ -48,7 +51,6 @@ typedef struct s_map
     int         uppermost_point;
     int         lowest_point;
     int         projection;
-    // int         color;
 }   t_map;
 
 typedef struct s_img
@@ -59,7 +61,6 @@ typedef struct s_img
 	int		    line_bytes;
 	int		    endian;
     int         image_bytes;
-    // t_line      *line;
 }   t_img;
 
 typedef struct s_fdf
@@ -81,8 +82,8 @@ typedef struct s_fdf
 
 enum e_projection
 {
-    ISOMETRIC,
-    TOP
+    TOP,
+    ISOMETRIC
 };
 
 char        **ft_split(char const *s, char c);
@@ -97,6 +98,7 @@ void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    draw_mesh(t_fdf *fdf);
 // void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
 void	    draw_line(t_fdf *fdf, t_vertex start, t_vertex end);
+void	render(t_fdf *fdf);
 
 void	    scale_to_fit(t_map *map);
 void        transform_to_isometric(t_map *map);
@@ -110,7 +112,7 @@ int         key_handle(int keycode, t_fdf *fdf);
 int	        close_all(t_fdf *fdf);
 
 void        translate(t_map *map, int x_displacement, int y_displacement);
-
+void        scale(t_map *map, int scale_factor);
 void        print_altitudes(t_map *map);
 void        print_coordenates(t_map *map);
 #endif
