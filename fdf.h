@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/27 00:54:58 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:22:02 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,29 @@
 # define KEY_RIGHT      124
 # define KEY_DOWN       125
 # define KEY_UP         126
-# define KEY_DEL        51
+# define KEY_T          17
+# define KEY_I          34
+
+typedef struct s_vertex
+{
+    float       x;
+    float       y;
+    float       z;
+}   t_vertex;
+
+typedef struct s_map
+{
+    t_vertex    **mesh;
+    int         width;
+    int         length;
+    int         scale_factor;
+    int         min_z;
+    int         max_z;
+    int         uppermost_point;
+    int         lowest_point;
+    int         projection;
+    // int         color;
+}   t_map;
 
 typedef struct s_img
 {
@@ -47,34 +69,21 @@ typedef struct s_fdf
     int         win_x;
     int         win_y;
     t_img       *image;
+    t_map       *map;
     int         exit_code;
 }   t_fdf;
 
-typedef struct s_vertex
-{
-    float       x;
-    float       y;
-    float       z;
-}   t_vertex;
+// typedef struct s_container
+// {
+//     t_fdf       *fdf;
+//     t_map       *map;
+// }   t_container;       
 
-typedef struct s_map
+enum e_projection
 {
-    t_vertex    **mesh;
-    int         width;
-    int         length;
-    int         scale_factor;
-    int         min_z;
-    int         max_z;
-    int         uppermost_point;
-    int         lowest_point;
-    // int         color;
-}   t_map;
-
-typedef struct s_container
-{
-    t_fdf       fdf;
-    t_map       map;
-}   t_container;           
+    ISOMETRIC,
+    TOP
+};
 
 char        **ft_split(char const *s, char c);
 int	        ft_atoi(const char *str);
@@ -85,19 +94,21 @@ t_vertex    **read_file(char *file_name, t_map *map);
 void	    clear_image(t_img *image, int image_bytes);
 // void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    put_pixel_to_image(t_img *image, int x, int y, int color);
-void	    draw_mesh(t_fdf *fdf, t_map *map);
+void	    draw_mesh(t_fdf *fdf);
 // void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
 void	    draw_line(t_fdf *fdf, t_vertex start, t_vertex end);
-void	    to_isometric(t_vertex *start, t_vertex *end);
-void        transform_to_isometric(t_map *map);
+
 void	    scale_to_fit(t_map *map);
-void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
+void        transform_to_isometric(t_map *map);
+// void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
 void	    center_in_screen(t_map *map);
 void        center_to_origin(t_map *map);
+
 void        on_error_exit(int exit_code);
 // int      key_handle(t_fdf *fdf, t_map *map, int keycode);
-int key_handle(int keycode, t_container *container);
+int         key_handle(int keycode, t_fdf *fdf);
 int	        close_all(t_fdf *fdf);
+
 void        translate(t_map *map, int x_displacement, int y_displacement);
 
 void        print_altitudes(t_map *map);

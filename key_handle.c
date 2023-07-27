@@ -6,27 +6,38 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:38 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/27 00:58:45 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:29:19 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-// int key_handle(t_fdf *fdf, t_map *map, int keycode)
-int key_handle(int keycode, t_container *container)
+int key_handle(int keycode, t_fdf *fdf)
 {
     if (keycode == KEY_ESC)
-        close_all(&container->fdf);
+        close_all(fdf);
     else if (keycode == KEY_LEFT)
-        translate(&container->map, -10, 0);
+        translate(fdf->map, -10, 0);
     else if (keycode == KEY_RIGHT)
-        translate(&container->map, 10, 0);
+        translate(fdf->map, 10, 0);
     else if (keycode == KEY_DOWN)
-        translate(&container->map, 0 , 10);
+        translate(fdf->map, 0 , 10);
     else if (keycode == KEY_UP)
-        translate(&container->map, 0 , -10);
-    // else if (keycode == KEY_DEL)
-    //     clear_image(fdf->image);
-    draw_mesh(&container->fdf, &container->map);
+        translate(fdf->map, 0 , -10);
+
+    else if (keycode == KEY_T)
+    {        
+        printf("changed to Top view\n");
+        fdf->map->projection = TOP;
+        printf("fdf->map->projection = %d\n", fdf->map->projection);
+    }
+    else if (keycode == KEY_I)
+    {
+        printf("changed to Isometric projection\n");
+        fdf->map->projection = ISOMETRIC;
+        printf("fdf->map->projection = %d\n", fdf->map->projection);
+    }
+        
+    draw_mesh(fdf);
     return (0);
 }

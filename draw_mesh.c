@@ -82,7 +82,7 @@ void	draw_line(t_fdf *fdf, t_vertex start, t_vertex end)
 	}
 }
 
-void draw_mesh(t_fdf *fdf, t_map *map)
+void draw_mesh(t_fdf *fdf)
 {
     int row;
     int column;
@@ -91,17 +91,17 @@ void draw_mesh(t_fdf *fdf, t_map *map)
 	image_bytes = WINDOW_WIDTH * WINDOW_HEIGHT * 4;
 	clear_image(fdf->image, image_bytes);
     row = 0;
-    while (row < map->length)
+    while (row < fdf->map->length)
     {
         column = 0;
-        while (column < map->width)
+        while (column < fdf->map->width)
         {
-            if (column < (map->width - 1))
+            if (column < (fdf->map->width - 1))
                 // draw_line(fdf, map, map->mesh[row][column], map->mesh[row][column + 1]);
-				draw_line(fdf, map->mesh[row][column], map->mesh[row][column + 1]);
-            if (row < (map->length - 1))
+				draw_line(fdf, fdf->map->mesh[row][column], fdf->map->mesh[row][column + 1]);
+            if (row < (fdf->map->length - 1))
                 // draw_line(fdf, map, map->mesh[row][column], map->mesh[row + 1][column]);
-				draw_line(fdf, map->mesh[row][column], map->mesh[row + 1][column]);
+				draw_line(fdf, fdf->map->mesh[row][column], fdf->map->mesh[row + 1][column]);
             column++;
         }
         row++;
