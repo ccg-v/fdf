@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/28 00:32:35 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/28 13:01:22 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <unistd.h>    // write
 # include <limits.h>    // INT_MIN, INT_MAX
 
-# define WINDOW_WIDTH   2560
-# define WINDOW_HEIGHT  1440
+# define WINDOW_WIDTH   1280
+# define WINDOW_HEIGHT  720
 
 # define KEY_ESC        53
 # define KEY_LEFT       123
@@ -105,6 +105,7 @@ void        transform_to_isometric(t_map *map);
 // void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
 void	    center_in_screen(t_map *map);
 void        center_to_origin(t_map *map);
+void	    return_to_origin(t_map *map);
 
 void        on_error_exit(int exit_code);
 // int      key_handle(t_fdf *fdf, t_map *map, int keycode);

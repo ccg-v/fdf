@@ -136,7 +136,30 @@ void	center_to_origin(t_map *map)
 		}
 		y++;
 	}
-	// print_coordenates(map);
+	print_coordenates(map);
+}
+
+void	return_to_origin(t_map *map)
+{
+	int	x;
+	int	y;
+
+	printf("\n--------------- RETURN TO ORIGIN ----------------\n");
+	// printf("map->width = %d\n", map->width);
+	printf("map->scale_factor = %d\n", map->scale_factor);
+	y = 0;
+	while (y < map->length)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			map->mesh[y][x].x -= (WINDOW_WIDTH / 2);
+			map->mesh[y][x].y -= (WINDOW_HEIGHT / 2);					
+			x++;
+		}
+		y++;
+	}
+	print_coordenates(map);
 }
 
 void	scale_to_fit(t_map	*map)
@@ -190,7 +213,7 @@ printf("\n----------------- SCALE TO FIT -----------------\n");
 	// 	y++;
 	// }
 
-	// print_coordenates(map);
+	print_coordenates(map);
 }
 
 void	transform_to_isometric(t_map *map)
@@ -222,7 +245,7 @@ void	transform_to_isometric(t_map *map)
 	}
 	// printf("uppermost_point = %d\n", map->uppermost_point);
 	// printf("lowest_point = %d\n", map->lowest_point);
-	// print_coordenates(map);
+	print_coordenates(map);
 }
 
 void	center_in_screen(t_map *map)
@@ -249,7 +272,7 @@ void	center_in_screen(t_map *map)
 		}
 		y++;
 	}
-	// print_coordenates(map);
+	print_coordenates(map);
 }
 
 /*
