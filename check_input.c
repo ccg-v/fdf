@@ -6,12 +6,11 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 18:08:10 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/06/28 21:15:40 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/29 01:44:58 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "get_next_line/get_next_line.h"
 
 int check_input (int argc, char *file_name)
 {

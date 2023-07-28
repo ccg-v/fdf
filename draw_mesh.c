@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "minilibx_macos/mlx.h"
+#include "mlx.h"
 #include <math.h>
 
 float	ft_abs(float num)

@@ -6,12 +6,12 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/28 13:20:44 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/29 01:48:20 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "minilibx_macos/mlx.h"
+#include "mlx.h"
 
 void	initialize_map(t_map *map, char *map_file)
 {

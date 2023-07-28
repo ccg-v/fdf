@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/28 13:01:22 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/29 01:42:48 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 # include <stdlib.h>    // free, size_t
 # include <fcntl.h>     // open
-# include <stdio.h>     // printf!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # include <unistd.h>    // write
 # include <limits.h>    // INT_MIN, INT_MAX
+
+# include <stdio.h>     //  printf!!!!!!!!!!!!!!!!!!!!!!!! DELETE !!!
 
 # define WINDOW_WIDTH   1280
 # define WINDOW_HEIGHT  720
@@ -90,7 +91,14 @@ char        **ft_split(char const *s, char c);
 int	        ft_atoi(const char *str);
 void	    ft_bzero(void *s, size_t n);
 float       ft_find_min_value(float x, float y);
-// int         check_input (int argc, char *file_name);
+size_t      ft_strlen(const char *str);
+char	    *ft_substr(char const *s, unsigned int start, size_t len);
+char	    *ft_strdup(const char *s1);
+char	    *ft_strjoin(char const *s1, char const *s2);
+char	    *ft_strchr(const char *s, int c);
+char        *get_next_line(int fd);
+
+int         check_input (int argc, char *file_name);
 t_vertex    **read_file(char *file_name, t_map *map);
 void	    clear_image(t_img *image, int image_bytes);
 // void	    put_pixel_to_image(t_img *image, int x, int y, int color);

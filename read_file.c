@@ -6,19 +6,11 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/27 23:12:08 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/29 01:48:32 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-    gcc -g -Wall -Wextra -Werror -I gnl/ ft_read_file.c get_next_line/get_next_line.c 
-    get_next_line/get_next_line_utils.c ft_split.c ft_atoi.c
-*/
-
 #include "fdf.h"
-#include "get_next_line/get_next_line.h"
-#include <stdio.h>
-#include <unistd.h>
 
 static int	count_columns(const char *str, char c)
 {
