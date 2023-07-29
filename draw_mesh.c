@@ -108,6 +108,7 @@ void draw_mesh(t_fdf *fdf)
         row++;
     }
     mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->image->image, 0, 0);
+	display_menu(fdf);
 }
 
 void	center_to_origin(t_map *map)

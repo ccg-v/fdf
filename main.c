@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/29 01:48:20 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/29 23:51:10 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	close_all(t_fdf *fdf)
 {
 	mlx_destroy_image(fdf->mlx_ptr, fdf->image->image);
 	mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
-	on_error_exit(fdf->exit_code);
+	on_error_exit(ERR_USER_END);
 	return (0);
 }
 
@@ -75,11 +75,11 @@ int	main(int argc, char **argv)
 	t_vertex	**mesh;
 	t_img		image;
 
-	(void)argv;
 	if (argc != 2)
-		return (-1);
+		on_error_exit(ERR_NUM_ARGS);
 	else
 	{
+		check_input(argc, argv[1]);
 		initialize_map(&map, argv[1]);
 		initialize_fdf(&fdf, &map, &image);
 		mesh = read_file(argv[1], fdf.map);
@@ -90,8 +90,8 @@ int	main(int argc, char **argv)
 		center_in_screen(fdf.map);
 		draw_mesh(&fdf);
 		// render(&fdf);
-	// printf("--------------- CENTER ISOMETRIC ----------------\n");
-	// print_coordenates(&map);
+		// printf("--------------- CENTER ISOMETRIC ----------------\n");
+		// print_coordenates(&map);
 		// fdf.exit_code = 0;
 		mlx_hook(fdf.win_ptr, 17, 0, close_all, &fdf);
 		// mlx_hook(fdf.win_ptr, 2, 0, key_handle, &container);
@@ -100,3 +100,36 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 }
+
+// int	main(int argc, char **argv)
+// {
+// 	t_fdf		fdf;
+// 	t_map		map;
+// 	t_vertex	**mesh;
+// 	t_img		image;
+
+// 	// (void)argv;
+// 	if (argc != 2)
+// 		return (-1);
+// 	else
+// 	{
+// 		initialize_map(&map, argv[1]);
+// 		initialize_fdf(&fdf, &map, &image);
+// 		mesh = read_file(argv[1], fdf.map);
+// 		center_to_origin(fdf.map);
+// 		scale_to_fit(fdf.map);
+// 		// if (fdf.map->projection == ISOMETRIC)
+// 		// 	transform_to_isometric(fdf.map);
+// 		center_in_screen(fdf.map);
+// 		draw_mesh(&fdf);
+// 		// render(&fdf);
+// 	// printf("--------------- CENTER ISOMETRIC ----------------\n");
+// 	// print_coordenates(&map);
+// 		// fdf.exit_code = 0;
+// 		mlx_hook(fdf.win_ptr, 17, 0, close_all, &fdf);
+// 		// mlx_hook(fdf.win_ptr, 2, 0, key_handle, &container);
+// 		mlx_key_hook(fdf.win_ptr, &key_handle, &fdf);
+// 		mlx_loop(fdf.mlx_ptr);
+// 		return (0);
+// 	}
+// }

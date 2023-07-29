@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/29 01:42:48 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/29 22:53:19 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@
 # define KEY_PLUS       24
 # define KEY_MINUS      27
 
+# define ERR_USER_END       "Program closed by user\n"
+# define ERR_NO_ARGS        "Not enough arguments!\n"
+# define ERR_NUM_ARGS       "Wrong number of arguments!\n"
+# define ERR_FILE_NAME      "File does not exist or is not a map!\n"
+# define ERR_FILE_ACCESS    "File access not allowed!\n"
+# define ERR_FILE_EMPTY     "File is empty\n"
+    
 typedef struct s_vertex
 {
     float       x;
@@ -96,6 +103,7 @@ char	    *ft_substr(char const *s, unsigned int start, size_t len);
 char	    *ft_strdup(const char *s1);
 char	    *ft_strjoin(char const *s1, char const *s2);
 char	    *ft_strchr(const char *s, int c);
+void	    ft_putstr_fd(char *s, int fd);
 char        *get_next_line(int fd);
 
 int         check_input (int argc, char *file_name);
@@ -106,6 +114,7 @@ void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    draw_mesh(t_fdf *fdf);
 // void	    draw_line(t_fdf *fdf, t_map *map, t_vertex start, t_vertex end);
 void	    draw_line(t_fdf *fdf, t_vertex start, t_vertex end);
+void    display_menu(t_fdf *fdf);
 void	render(t_fdf *fdf);
 
 void	    scale_to_fit(t_map *map);
@@ -115,7 +124,8 @@ void	    center_in_screen(t_map *map);
 void        center_to_origin(t_map *map);
 void	    return_to_origin(t_map *map);
 
-void        on_error_exit(int exit_code);
+// void        on_error_exit(int exit_code);
+void        on_error_exit(char *exit_code);
 // int      key_handle(t_fdf *fdf, t_map *map, int keycode);
 int         key_handle(int keycode, t_fdf *fdf);
 int	        close_all(t_fdf *fdf);

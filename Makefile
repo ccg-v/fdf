@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/07/29 01:36:48 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/07/30 00:13:46 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRC_FILES		=		main.c \
 						transformations.c \
 						on_error_exit.c \
 						ft_find_min_value.c \
+						display_menu.c \
 						debug_printing.c \
 
 # --- Macros ----------------------------------------------------------------- #
@@ -80,7 +81,7 @@ clean:
 
 fclean:		clean
 			rm -f $(NAME)
-			$(MAKE) -C $(LIBFT_DIR) clean
+			$(MAKE) -C $(LIBFT_DIR) fclean
 			$(MAKE) -C $(LIBMLX_DIR) clean
 
 re:			fclean all

@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/29 01:48:32 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:48:28 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	count_columns(const char *str, char c)
 		while (str[i] && str[i] != c)
 			i++;
 	}
-printf("num_columns = %d\n", num_columns);
 	return (num_columns);
 }
 
@@ -37,6 +36,8 @@ static void get_map_dimensions(char *file_name, t_map *map)
     int     fd;
     char    *line;
     int     flag;
+int map_width;
+int map_length;
 
     fd = open(file_name, O_RDONLY, 0);
     map->length = -1;
@@ -50,12 +51,12 @@ static void get_map_dimensions(char *file_name, t_map *map)
         {
             map->width = count_columns(line, ' ');
             flag = 1;
+map_width = map->width;
         }
+map_length = map->length;
         map->length++;
+        free(line); 
     }
-    close(fd);
-    fd = open(file_name, O_RDONLY, 0);
-    lseek(fd, 0, SEEK_SET);
     close(fd);
 }
 
@@ -75,6 +76,21 @@ t_vertex   **mesh_memory_allocate(t_map *map)
         i++;
     }
     return (map->mesh);
+}
+
+void	ft_free_array_of_strings(char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (argv == NULL || *argv == NULL)
+		return ;
+	while (argv[i])
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
 }
 
 /*  Remember: y is the line, x is the column    */
@@ -109,7 +125,9 @@ t_vertex   **fill_mesh(char *file_name, t_map *map)
             x++;
         }
         y++;
-    }
+        free(line);
+        ft_free_array_of_strings(splitted_line);
+    }   
     close(fd);
     return (map->mesh);
 }
