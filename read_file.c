@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:32:01 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/29 21:48:28 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/31 00:40:37 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,42 @@ map_length = map->length;
     close(fd);
 }
 
-t_vertex   **mesh_memory_allocate(t_map *map)
+t_vertex   **mesh_memory_allocate(t_vertex **mesh, t_fdf *fdf)
 {
-    // t_map   **map_array;
     int     i;
     
-    map->mesh = (t_vertex **)malloc((map->length + 1) * sizeof(t_vertex *));
-    if (!map->mesh)
+    mesh = (t_vertex **)malloc((fdf->map->length + 1) * sizeof(t_vertex *));
+    if (!mesh)
         return (NULL);
     i = 0;
-    while (i < map->length)
+    while (i < fdf->map->length)
     {
-        map->mesh[i] = (t_vertex *)malloc((map->width + 1) * sizeof(t_vertex));
-        
+        mesh[i] = (t_vertex *)malloc((fdf->map->width + 1) * sizeof(t_vertex));
+        if (!mesh[i])
+            return (NULL);
         i++;
     }
-    return (map->mesh);
+    return (mesh);
 }
+
+// t_vertex   **mesh_memory_allocate(t_map *map)
+// {
+//     // t_map   **map_array;
+//     int     i;
+    
+//     map->mesh = (t_vertex **)malloc((map->length + 1) * sizeof(t_vertex *));
+//     if (!map->mesh)
+//         return (NULL);
+//     i = 0;
+//     while (i < map->length)
+//     {
+//         map->mesh[i] = (t_vertex *)malloc((map->width + 1) * sizeof(t_vertex));
+//         if (!map->mesh[i])
+//             return (NULL);
+//         i++;
+//     }
+//     return (map->mesh);
+// }
 
 void	ft_free_array_of_strings(char **argv)
 {
@@ -96,7 +115,7 @@ void	ft_free_array_of_strings(char **argv)
 /*  Remember: y is the line, x is the column    */
 /*  Fill the mesh with each point's coordinates */
 /*  and save the maximum and minimun z values   */
-t_vertex   **fill_mesh(char *file_name, t_map *map)
+t_vertex   **fill_mesh(char *file_name, t_fdf *fdf)
 {
     int     fd;
     char    *line;
@@ -107,21 +126,29 @@ t_vertex   **fill_mesh(char *file_name, t_map *map)
     fd = open(file_name, O_RDONLY, 0);
     y = 0;
     line = NULL;
-    while (y < map->length)
+void *map_address = (void *)fdf->map;
+int map_width = fdf->map->width;
+int map_length = fdf->map->length;
+void *mesh_address = (void *)fdf->map->mesh;
+printf ("fdf->map address = %p\n", map_address);
+printf ("map->width = %d\n", map_width);
+printf ("map->length = %d\n", map_length);
+printf ("fdf->map->mesh = %p\n", mesh_address);
+    while (y < fdf->map->length)
     {
        line = get_next_line(fd);
        splitted_line = ft_split(line, ' ');
     //    splitted_line = ft_split(get_next_line(fd), ' ');
         x = 0;
-        while (x < map->width)
+        while (x < fdf->map->width)
         {
-            map->mesh[y][x].x = x; //- (map->width / 2);
-            map->mesh[y][x].y = y; //- (map->length / 2);
-            map->mesh[y][x].z = ft_atoi(splitted_line[x]);
-            if (map->mesh[y][x].z < map->min_z)
-                map->min_z = map->mesh[y][x].z;
-            if (map->mesh[y][x].z > map->max_z)
-                map->max_z = map->mesh[y][x].z;               
+            fdf->map->mesh[y][x].x = x; //- (map->width / 2);
+            fdf->map->mesh[y][x].y = y; //- (map->length / 2);
+            fdf->map->mesh[y][x].z = ft_atoi(splitted_line[x]);
+            if (fdf->map->mesh[y][x].z < fdf->map->min_z)
+                fdf->map->min_z = fdf->map->mesh[y][x].z;
+            if (fdf->map->mesh[y][x].z > fdf->map->max_z)
+                fdf->map->max_z = fdf->map->mesh[y][x].z;               
             x++;
         }
         y++;
@@ -129,20 +156,71 @@ t_vertex   **fill_mesh(char *file_name, t_map *map)
         ft_free_array_of_strings(splitted_line);
     }   
     close(fd);
-    return (map->mesh);
+    return (fdf->map->mesh);
 }
 
-t_vertex   **read_file(char *file_name, t_map *map)
+void    read_file(char *file_name, t_fdf *fdf)
 {
-    t_vertex   **mesh;
-    // map->length = get_map_length(file_name);
-    // map->width = get_map_width(file_name);
-    get_map_dimensions(file_name, map);
-    mesh = mesh_memory_allocate(map);
-    mesh = fill_mesh(file_name, map);
+    get_map_dimensions(file_name, fdf->map);
+    fdf->map->mesh = mesh_memory_allocate(fdf->map->mesh, fdf);
+    fill_mesh(file_name, fdf);
 	// center_to_origin(map);
     // print_altitudes(map);
     // printf("\n------- array of coordenates -------\n"); 
     // print_coordenates(map);
-    return (mesh);
 }
+
+void    do_mesh_copy(t_vertex **src_mesh, t_vertex ***dst_mesh, t_fdf *fdf)
+{
+    int x;
+    int y;
+    if (*dst_mesh == NULL)
+        *dst_mesh = mesh_memory_allocate(src_mesh, fdf);
+    y = 0;
+    while(y < fdf->map->length)
+    {
+        x = 0;
+        while (x < fdf->map->width)
+        {
+            (*dst_mesh)[y][x].x = src_mesh[y][x].x;
+            (*dst_mesh)[y][x].y = src_mesh[y][x].y;
+            (*dst_mesh)[y][x].z = src_mesh[y][x].z;
+            x++;
+        }
+        y++; 
+    }
+	printf("\n----------------- ORIGINAL MESH -----------------\n");
+    print_coordenates(fdf->map, src_mesh);
+	printf("\n------------------- MESH COPY -------------------\n");
+    print_coordenates(fdf->map, *dst_mesh); 
+}
+
+// t_vertex   **do_mesh_copy(t_fdf *fdf);
+// {
+//     t_vertex    **source_mesh;
+//     t_vertex    **mesh_copy;
+//     int         x;
+//     int         y;
+
+//     source_mesh = fdf->map->mesh;
+//     mesh_copy = fdf->map->mesh_copy;
+//     mesh_copy = mesh_memory_allocate(fdf->map);
+//     y = 0;
+//     while(y < fdf->map->length)
+//     {
+//         x = 0;
+//         while (x < fdf->map->width)
+//         {
+//             mesh_copy[y][x].x = original_mesh[y][x].x;
+//             mesh_copy[y][x].y = original_mesh[y][x].y;
+//             mesh_copy[y][x].z = original_mesh[y][x].z;
+//             x++;
+//         }
+//         y++; 
+//     }
+// 	printf("\n----------------- ORIGINAL MESH -----------------\n");
+//     print_coordenates(fdf->map, original_mesh);
+// 	printf("\n------------------- MESH COPY -------------------\n");
+//     print_coordenates(fdf->map, mesh_copy);
+//     return (mesh_copy);   
+// }

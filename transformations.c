@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:17:17 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/28 12:44:37 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/30 13:01:04 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ printf("(%f, %f) \tbecomes \t(%d, %d)\n", map->mesh[y][x].x, map->mesh[y][x].y, 
         }
         y++;
     } 
-    print_coordenates(map);
+    print_coordenates(map, map->mesh);
 }
 
 // void    scale(t_map *map, int scale_factor)

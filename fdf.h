@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/29 22:53:19 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/31 00:40:35 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_map
 {
     char        *map_file;
     t_vertex    **mesh;
+    t_vertex    **mesh_copy;
     int         width;
     int         length;
     int         scale_factor;
@@ -107,7 +108,8 @@ void	    ft_putstr_fd(char *s, int fd);
 char        *get_next_line(int fd);
 
 int         check_input (int argc, char *file_name);
-t_vertex    **read_file(char *file_name, t_map *map);
+t_vertex   **mesh_memory_allocate(t_vertex **mesh, t_fdf *fdf);
+void        read_file(char *file_name, t_fdf *fdf);
 void	    clear_image(t_img *image, int image_bytes);
 // void	    put_pixel_to_image(t_img *image, int x, int y, int color);
 void	    put_pixel_to_image(t_img *image, int x, int y, int color);
@@ -117,12 +119,15 @@ void	    draw_line(t_fdf *fdf, t_vertex start, t_vertex end);
 void    display_menu(t_fdf *fdf);
 void	render(t_fdf *fdf);
 
+
 void	    scale_to_fit(t_map *map);
 void        transform_to_isometric(t_map *map);
 // void	    center_in_image(t_map *map, t_vertex *start, t_vertex *end);
 void	    center_in_screen(t_map *map);
 void        center_to_origin(t_map *map);
 void	    return_to_origin(t_map *map);
+// t_vertex   **do_mesh_copy(t_fdf *fdf);
+void        do_mesh_copy(t_vertex **src_mesh, t_vertex ***dst_mesh, t_fdf *fdf);
 
 // void        on_error_exit(int exit_code);
 void        on_error_exit(char *exit_code);
@@ -133,5 +138,5 @@ int	        close_all(t_fdf *fdf);
 void        translate(t_map *map, int x_displacement, int y_displacement);
 void        scale(t_map *map, int scale_factor);
 void        print_altitudes(t_map *map);
-void        print_coordenates(t_map *map);
+void        print_coordenates(t_map *map, t_vertex **vertex);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:08:38 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/28 12:45:40 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/31 00:24:07 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,16 @@ int key_handle(int keycode, t_fdf *fdf)
     // change projection
     else if (keycode == KEY_T)
     {
-        printf("changingo to TOP view\n");
+        printf("changing to TOP view\n");
         fdf->map->projection = TOP;
+        printf("fdf->map->projection = %d\n", fdf->map->projection);
         render(fdf);
     }
     else if (keycode == KEY_I)
     {
         printf("changing to ISOMETRIC view\n");
         fdf->map->projection = ISOMETRIC;
+        printf("fdf->map->projection = %d\n", fdf->map->projection);
         render(fdf);
     }
     return (0);

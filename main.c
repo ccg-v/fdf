@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/29 23:51:10 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/07/31 00:41:36 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	initialize_map(t_map *map, char *map_file)
 {
 	map->map_file = map_file;
 	map->mesh = NULL;
+	map->mesh_copy = NULL;
 	map->width = 0;
 	map->length = 0;
 	map->scale_factor = 1;
@@ -51,7 +52,6 @@ int	close_all(t_fdf *fdf)
 
 void	render(t_fdf *fdf)
 {
-	// t_vertex	**mesh;
 
 	// mesh = read_file(fdf->map->map_file, fdf->map);
 	// center_to_origin(fdf->map);
@@ -60,10 +60,21 @@ void	render(t_fdf *fdf)
 	{
 		return_to_origin(fdf->map);
 		transform_to_isometric(fdf->map);
+		// center_in_screen(fdf->map);
 	}
-	else if (fdf->map->projection == TOP)
-		return_to_origin(fdf->map);
-	// scale_to_fit(fdf->map);
+	else if (fdf->map->projection == TOP) 
+	{
+		printf("mesh address = %p\n", (void *)*(fdf->map->mesh));
+		printf("mesh_copy address = %p\n", (void *)*(fdf->map->mesh_copy));
+		// fdf->map->mesh_copy = mesh_memory_allocate(fdf->map->mesh_copy, fdf);
+		do_mesh_copy(fdf->map->mesh_copy, &fdf->map->mesh, fdf);
+	}
+	// ESTE BUCLE NO REVIENTA PERO NO REGRESA A TOP Y CENTRA EN RIGHT_BOTTOM
+	// else if (fdf->map->projection == TOP) 
+	// {
+	// 	fdf->map->mesh_copy = mesh_memory_allocate(fdf->map->mesh_copy, fdf);
+	// 	do_mesh_copy(fdf->map->mesh, fdf->map->mesh_copy, fdf);
+	// }
 	center_in_screen(fdf->map);
 	draw_mesh(fdf);
 }
@@ -72,7 +83,8 @@ int	main(int argc, char **argv)
 {
 	t_fdf		fdf;
 	t_map		map;
-	t_vertex	**mesh;
+	// t_vertex	**mesh;
+	// t_vertex	**mesh_copy;
 	t_img		image;
 
 	if (argc != 2)
@@ -82,9 +94,10 @@ int	main(int argc, char **argv)
 		check_input(argc, argv[1]);
 		initialize_map(&map, argv[1]);
 		initialize_fdf(&fdf, &map, &image);
-		mesh = read_file(argv[1], fdf.map);
+		read_file(argv[1], &fdf);
 		center_to_origin(fdf.map);
 		scale_to_fit(fdf.map);
+		do_mesh_copy(fdf.map->mesh, &fdf.map->mesh_copy, &fdf);
 		// if (fdf.map->projection == ISOMETRIC)
 		// 	transform_to_isometric(fdf.map);
 		center_in_screen(fdf.map);
