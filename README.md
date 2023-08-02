@@ -1,4 +1,4 @@
-# push_swap
+# fdf
 <p align="center">
-	<img src="assets/push_swap_pseudocode.svg" />
+	<img src="assets/fdf.svg" />
 </p>
