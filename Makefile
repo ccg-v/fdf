@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/07/30 00:13:46 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/07/31 17:35:12 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ NAME			=		fdf
 # --- Compiler flags --------------------------------------------------------- #
 
 CFLAGS			=		-MMD -Wall -Wextra -Werror -g
-LIBMLX_FLAGS		=		-lmlx -framework OpenGL -framework AppKit
+LIBMLX_FLAGS	=		-lmlx -framework OpenGL -framework AppKit
 
 # --- Directories ------------------------------------------------------------ #
 
@@ -42,15 +42,14 @@ LIBMLX_PATH		= 		$(addprefix $(LIBMLX_DIR), $(LIBMLX_NAME))
 # --- Files ------------------------------------------------------------------ #
 
 SRC_FILES		=		main.c \
-						check_input.c \
-						read_file.c \
-						draw_mesh.c \
-						key_handle.c \
-						transformations.c \
-						on_error_exit.c \
-						ft_find_min_value.c \
-						display_menu.c \
-						debug_printing.c \
+						checking.c \
+						reading.c \
+						centering.c \
+						drawing.c \
+						key_handling.c \
+						transforming.c \
+						menu_displaying.c \
+						ft_utils.c \
 
 # --- Macros ----------------------------------------------------------------- #
 
@@ -65,7 +64,7 @@ all:
 		$(MAKE) $(NAME)
 
 $(NAME): $(OBJ_FILES) $(LIBMLX_PATH)
-	$(CC) $(CFLAGS) -fsanitize=address $(INCLUDES) $(OBJ_FILES) -o $@ $(LIB_INCLUDE) $(LIBMLX_FLAGS)
+	$(CC) $(CFLAGS)  $(INCLUDES) $(OBJ_FILES) -o $@ $(LIB_INCLUDE) $(LIBMLX_FLAGS)
 
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
