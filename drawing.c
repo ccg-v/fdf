@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/31 17:46:56 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/08/19 00:31:45 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	draw_line(t_fdf *fdf, t_vertex start, t_vertex end)
 	float	delta_x;
 	float	delta_y;
 	int		biggest_delta;
+	int		color;
 
 	delta_x = end.x - start.x;
 	delta_y = end.y - start.y;
@@ -59,9 +60,13 @@ void	draw_line(t_fdf *fdf, t_vertex start, t_vertex end)
 		biggest_delta = ft_abs(delta_y);
 	delta_x /= biggest_delta;
 	delta_y /= biggest_delta;
+	if (start.z || end.z)
+        color = 0xe80c0c;
+    else
+        color = 0xffffff;
 	while (biggest_delta > 0)
 	{
-		put_pixel_to_image(fdf->image, start.x, start.y, 0xffffff);
+		put_pixel_to_image(fdf->image, start.x, start.y, color);
 		start.x += delta_x;
 		start.y += delta_y;
 		biggest_delta--;

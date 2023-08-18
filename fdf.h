@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/31 20:22:54 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/08/19 00:19:38 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ float		deg_to_rad(float deg_angle);
 int			ft_find_min_value(float x, float y);
 int			ft_count_columns(const char *str, char c);
 void		ft_free_array_of_strings(char **argv);
+void    	print_coordenates(t_map *map);
 
 #endif

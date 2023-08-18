@@ -6,7 +6,7 @@
 #    By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 21:20:12 by ccarrace          #+#    #+#              #
-#    Updated: 2023/07/31 17:35:12 by ccarrace         ###   ########.fr        #
+#    Updated: 2023/08/19 00:20:26 by ccarrace         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRC_FILES		=		main.c \
 						transforming.c \
 						menu_displaying.c \
 						ft_utils.c \
+						print_to_debug.c
 
 # --- Macros ----------------------------------------------------------------- #
 
