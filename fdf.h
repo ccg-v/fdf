@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:15:57 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/08/19 00:19:38 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/08/22 00:22:53 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,6 @@ int			ft_find_min_value(float x, float y);
 int			ft_count_columns(const char *str, char c);
 void		ft_free_array_of_strings(char **argv);
 void    	print_coordenates(t_map *map);
+void		print_altitudes(t_map *map);
 
 #endif

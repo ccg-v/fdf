@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:53 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/08/02 12:21:21 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/08/22 00:52:40 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	center_to_origin(t_map *map)
 	int	x;
 	int	y;
 
-	ft_putstr_fd("center to origin:\n", 1);
+	ft_putstr_fd("\ncenter to origin:\n", 1);
 	y = 0;
 	while (y < map->length)
 	{
@@ -44,7 +44,7 @@ void	return_to_origin(t_map *map)
 	int	x;
 	int	y;
 
-	ft_putstr_fd("return to origin:\n", 1);
+	ft_putstr_fd("\nreturn to origin:\n", 1);
 	y = 0;
 	while (y < map->length)
 	{
@@ -67,7 +67,7 @@ void	center_in_screen(t_map *map)
 	float	centered_x;
 	float	centered_y;
 
-	ft_putstr_fd("center in screen:\n", 1);
+	ft_putstr_fd("\ncenter in screen:\n", 1);
 	y = 0;
 	while (y < map->length)
 	{

@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:17:17 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/08/02 12:23:38 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/08/22 01:48:42 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	scale_to_fit(t_map	*map)
 	int		x;
 	int		y;
 
-	ft_putstr_fd("scale to fit:\n", 1);
+	ft_putstr_fd("\nscale to fit:\n", 1);
 	scale_x = WINDOW_WIDTH / map->width;
 	scale_y = WINDOW_HEIGHT / map->length;
 	map->scale_factor = ft_find_min_value(scale_x, scale_y);
@@ -48,7 +48,7 @@ void	transform_to_isometric(t_map *map)
 	float	iso_x;
 	float	iso_y;
 
-	ft_putstr_fd("transform to isometric:\n", 1);
+	ft_putstr_fd("\ntransform to isometric:\n", 1);
 	y = 0;
 	while (y < map->length)
 	{
@@ -59,10 +59,6 @@ void	transform_to_isometric(t_map *map)
 					* cos(deg_to_rad(30));
 			iso_y = (map->mesh[y][x].x + map->mesh[y][x].y) \
 					* sin(deg_to_rad(30)) - map->mesh[y][x].z;
-			if (iso_y < map->uppermost_point)
-				map->uppermost_point = iso_y;
-			if (iso_y > map->lowest_point)
-				map->lowest_point = iso_y;
 			map->mesh[y][x].x = iso_x;
 			map->mesh[y][x].y = iso_y;
 			x++;
@@ -79,7 +75,7 @@ void	translate(t_map *map, int x_displacement, int y_displacement)
 	int	translated_x;
 	int	translated_y;
 
-	ft_putstr_fd("translate:\n", 1);
+	ft_putstr_fd("\ntranslate:\n", 1);
 	y = 0;
 	while (y < map->length)
 	{
@@ -103,7 +99,7 @@ void	z_scale(t_map *map)
 	int		y;
 	float	scaled_z;
 
-	ft_putstr_fd("z scale:\n", 1);
+	ft_putstr_fd("\nz scale:\n", 1);
 	scaled_z = 0.0;
 	y = 0;
 	while (y < map->length)

@@ -9,7 +9,7 @@ void print_altitudes(t_map *map)
     int     Z;
 
     line = 0;
-    printf("array of altitudes\n"); 
+    printf("\narray of altitudes:\n"); 
     line = 0;
     while (line < map->length)
     {

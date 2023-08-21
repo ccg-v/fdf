@@ -6,7 +6,7 @@
 /*   By: ccarrace <ccarrace@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:38:42 by ccarrace          #+#    #+#             */
-/*   Updated: 2023/07/31 19:27:18 by ccarrace         ###   ########.fr       */
+/*   Updated: 2023/08/22 00:54:06 by ccarrace         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ int	main(int argc, char **argv)
 		initialize_map(&map, argv[1]);
 		initialize_fdf(&fdf, &map, &image);
 		read_file(argv[1], &fdf);
+		print_altitudes(&map);
+		ft_putstr_fd("\nmap of coordenates:\n", 1);
+		print_coordenates(&map);
 		center_to_origin(fdf.map);
 		scale_to_fit(fdf.map);
 		do_mesh_copy(fdf.map->mesh, &fdf.map->mesh_copy, &fdf);
